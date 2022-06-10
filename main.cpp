@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// Store purchase records as Linked-List
 Purchase_Records* pr = new Purchase_Records;
 
 int main() {
