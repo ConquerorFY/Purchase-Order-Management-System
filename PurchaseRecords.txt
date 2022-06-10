@@ -1,0 +1,4 @@
+// Format: OrderID%Client ID%Client Name%Item ID%Item Name%Date%Time%Status
+001%010%John%011%Yellow Lamp%2022-01-01%01:40pm%Not Processed
+002%011%Jason%012%Red Lamp%2022-01-02%02:40pm%Not Processed
+003%012%Jimmy%013%Green Lamp%2022-01-02%03:40pm%Processed
