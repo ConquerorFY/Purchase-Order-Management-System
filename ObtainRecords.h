@@ -32,11 +32,11 @@ Purchase_Records* obtain_records(Purchase_Records* head) {
 				pr->set_order_id(stoi(string_token_list[0]));
 				pr->set_client_id(stoi(string_token_list[1]));
 				pr->set_client_name(string_token_list[2]);
-				pr->set_item_id(stoi(string_token_list[3]));
-				pr->set_item_name(string_token_list[4]);
+				pr->set_item_ids(string_token_list[3]);
+				pr->set_price(stod(string_token_list[4]));
 				pr->set_date(string_token_list[5]);
 				pr->set_time(string_token_list[6]);
-				pr->set_priority(stoi(string_token_list[7]));
+				pr->set_type(string_token_list[7]);
 				pr->set_status(string_token_list[8]);
 				pr->next = NULL;
 
@@ -63,11 +63,11 @@ void debug_view_records(Purchase_Records* head) {
 		cout << "Order ID: " << current->get_order_id() << endl;
 		cout << "Client ID: " << current->get_client_id() << endl;
 		cout << "Client Name: " << current->get_client_name() << endl;
-		cout << "Item ID: " << current->get_item_id() << endl;
-		cout << "Item_Name: " << current->get_item_name() << endl;
+		cout << "Item IDs: " << current->get_item_ids() << endl;
+		cout << "Price: " << current->get_price() << endl;
 		cout << "Date: " << current->get_date() << endl;
 		cout << "Time: " << current->get_time() << endl;
-		cout << "Priority: " << current->get_priority() << endl;
+		cout << "Type: " << current->get_type() << endl;
 		cout << "Status: " << current->get_status() << endl << endl;
 
 		current = current->next;

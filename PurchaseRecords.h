@@ -8,17 +8,17 @@
 using namespace std;
 
 // Linked List Node Class
-// Priority (1 = Min Priority, 2 = Medium Priority, 3 = Max Priority)
+// Type (Bulky = Max Priority, Single = Min Priority)
 class Purchase_Records {
 private:
 	int order_id;
 	int client_id;
 	string client_name;
-	int item_id;
-	string item_name;
+	string item_ids;
+	double price;
 	string date;
 	string time;
-	int priority;
+	string type;
 	string status;
 
 public:
@@ -34,11 +34,11 @@ public:
 	string get_client_name(void) {
 		return client_name;
 	}
-	int get_item_id(void) {
-		return item_id;
+	string get_item_ids(void) {
+		return item_ids;
 	}
-	string get_item_name(void) {
-		return item_name;
+	double get_price(void) {
+		return price;
 	}
 	string get_date(void) {
 		return date;
@@ -46,8 +46,8 @@ public:
 	string get_time(void) {
 		return time;
 	}
-	int get_priority(void) {
-		return priority;
+	string get_type(void) {
+		return type;
 	}
 	string get_status(void) {
 		return status;
@@ -63,11 +63,11 @@ public:
 	void set_client_name(string name) {
 		client_name = name;
 	}
-	void set_item_id(int id) {
-		item_id = id;
+	void set_item_ids(string ids) {
+		item_ids = ids;
 	}
-	void set_item_name(string name) {
-		item_name = name;
+	void set_price(double price) {
+		this->price = price;
 	}
 	void set_date(string date) {
 		this->date = date;
@@ -75,8 +75,8 @@ public:
 	void set_time(string time) {
 		this->time = time;
 	}
-	void set_priority(int priority) {
-		this->priority = priority;
+	void set_type(string type) {
+		this->type = type;
 	}
 	void set_status(string status) {
 		this->status = status;

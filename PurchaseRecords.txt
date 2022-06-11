@@ -1,4 +1,4 @@
-// Format: OrderID%Client ID%Client Name%Item ID%Item Name%Date%Time%Priority%Status
-001%010%John%011%Yellow Lamp%2022-01-01%01:40pm%1%Not Processed
-002%011%Jason%012%Red Lamp%2022-01-02%02:40pm%2%Not Processed
-003%012%Jimmy%013%Green Lamp%2022-01-02%03:40pm%3%Processed
+// Format: OrderID%Client ID%Client Name%Item IDs%Price%Date%Time%Type%Status
+001%010%John%011,012,013%100.50%2022-01-01%01:40pm%Bulky%Not Processed
+002%011%Jason%012%30%2022-01-02%02:40pm%Single%Not Processed
+003%012%Jimmy%013,014,015%71.50%2022-01-02%03:40pm%Bulky%Processed

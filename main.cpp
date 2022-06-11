@@ -8,6 +8,5 @@ Purchase_Records* pr = new Purchase_Records;
 
 int main() {
 	pr = obtain_records(pr);
-
 	return 0;
 }
