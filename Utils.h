@@ -7,8 +7,12 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include "PurchaseRecords.h"
 
 using namespace std;
+
+// Function to split string into arrays using any delimeters provided
+// ***********************************************************************************
 
 string* split_string(string input, char delim) {
 	stringstream input_stream(input);
@@ -23,5 +27,7 @@ string* split_string(string input, char delim) {
 
 	return string_tokens;
 }
+
+// ***********************************************************************************
 
 #endif

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ObtainRecords.h"
+#include "SortRecords.h"
 
 using namespace std;
 
@@ -8,5 +9,9 @@ Purchase_Records* pr = new Purchase_Records;
 
 int main() {
 	pr = obtain_records(pr);
+
+	// Sort Records
+	pr = sort_records(pr, 6);
+	debug_view_sorted_records(pr);
 	return 0;
 }
