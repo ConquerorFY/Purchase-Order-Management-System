@@ -11,7 +11,7 @@ int main() {
 	pr = obtain_records(pr);
 
 	// Sort Records
-	pr = sort_records(pr, 6);
+	pr = sort_records(pr, 4);
 	debug_view_sorted_records(pr);
 	return 0;
 }

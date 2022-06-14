@@ -60,7 +60,7 @@ Purchase_Records* merge(Purchase_Records* left, Purchase_Records* right, int cri
 
 	// Option 3: Date
 	else if (criteria == 3) {
-		if (left->get_date() < right->get_date()) {
+		if (compare_date(left->get_date(), right->get_date()) > 0) {
 			counter = left;
 			counter->next = merge(left->next, right, criteria);
 		}
@@ -72,7 +72,7 @@ Purchase_Records* merge(Purchase_Records* left, Purchase_Records* right, int cri
 
 	// Option 4: Time
 	else if (criteria == 4) {
-		if (left->get_time() < right->get_time()) {
+		if (compare_time(left->get_time(), right->get_time()) > 0) {
 			counter = left;
 			counter->next = merge(left->next, right, criteria);
 		}
