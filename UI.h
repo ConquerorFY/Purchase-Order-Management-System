@@ -101,14 +101,14 @@ void executives_screen(string name, Purchase_Records* &pr) {
         cout << "8. Exit" << endl;
         cout << "********************************************************************************************" << endl << endl;
 
-        cout << "Action Selection: " << endl;
+        cout << "Action Selection: ";
         cin >> selection;
 
         clear_screen();
         if (selection == 1) {
             pr = obtain_records(pr);
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
-            cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl;
+            cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl << endl;
         }
         else if (selection == 2) {
             // modify
@@ -117,31 +117,68 @@ void executives_screen(string name, Purchase_Records* &pr) {
             cout << "All Purchase Order Records: " << endl;
             cout << "********************************************************************************************" << endl;
             debug_view_records(pr);
-            cout << "********************************************************************************************" << endl;
+            cout << "********************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
             int criteria;
             int option;
 
-            cout << "Please Select What Criteria to Use For Sorting: " << endl;
-            cout << "********************************************************************************************" << endl;
-            cout << "0: Order ID" << endl;
-            cout << "1: Client ID" << endl;
-            cout << "2: Price" << endl;
-            cout << "3: Date" << endl;
-            cout << "4: Time" << endl;
-            cout << "5: Type" << endl;
-            cout << "6: Status" << endl;
-            cout << "********************************************************************************************" << endl << endl;
+            while (true) {
+                cout << "Please Select What Criteria to Use For Sorting: " << endl;
+                cout << "********************************************************************************************" << endl;
+                cout << "0: Order ID" << endl;
+                cout << "1: Client ID" << endl;
+                cout << "2: Price" << endl;
+                cout << "3: Date" << endl;
+                cout << "4: Time" << endl;
+                cout << "5: Type" << endl;
+                cout << "6: Status" << endl;
+                cout << "********************************************************************************************" << endl << endl;
 
-            cout << "Criteria Selection: ";
-            cin >> criteria;
+                cout << "Criteria Selection: ";
+                cin >> criteria;
 
-            cout << "Please Select What Order to Use for Sorting: " << endl;
-            cout << "1: Ascending Order" << endl;
-            cout << "-1: Descending Order" << endl;
-            cout << "Order Selection: ";
-            cin >> option;
+                if (!cin.fail()) {
+                    if (criteria >= 0 && criteria <= 6) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+
+                }
+            }
+
+            while (true) {
+                cout << "Please Select What Order to Use for Sorting: " << endl;
+                cout << "1: Ascending Order" << endl;
+                cout << "-1: Descending Order" << endl;
+                cout << "Order Selection: ";
+                cin >> option;
+
+                if (!cin.fail()) {
+                    if (option == -1 || option == 1) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+            }
 
             pr = sort_records(pr, criteria, option);
             cout << "\n[*] Purchase Order Record List has been sorted successfully!!" << endl;
@@ -154,6 +191,15 @@ void executives_screen(string name, Purchase_Records* &pr) {
         }
         else if (selection == 7) {
             // logout
+        }
+        else if (selection == 8) {
+            // exit
+        }
+        else {
+            // Input Validation
+            cout << "[X] Input Error! Please Enter the Correct Inputs!" << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
         }
     }
 }
@@ -179,7 +225,7 @@ void admin_screen(string name, Purchase_Records*& pr) {
         cout << "11. Exit" << endl;
         cout << "********************************************************************************************" << endl << endl;
 
-        cout << "Action Selection: " << endl;
+        cout << "Action Selection: ";
         cin >> selection;
 
         clear_screen();
@@ -201,28 +247,64 @@ void admin_screen(string name, Purchase_Records*& pr) {
             int criteria;
             int option;
 
-            cout << "Please Select What Criteria to Use For Sorting: " << endl;
-            cout << "********************************************************************************************" << endl;
-            cout << "0: Order ID" << endl;
-            cout << "1: Client ID" << endl;
-            cout << "2: Price" << endl;
-            cout << "3: Date" << endl;
-            cout << "4: Time" << endl;
-            cout << "5: Type" << endl;
-            cout << "6: Status" << endl;
-            cout << "********************************************************************************************" << endl << endl;
+            while (true) {
+                cout << "Please Select What Criteria to Use For Sorting: " << endl;
+                cout << "********************************************************************************************" << endl;
+                cout << "0: Order ID" << endl;
+                cout << "1: Client ID" << endl;
+                cout << "2: Price" << endl;
+                cout << "3: Date" << endl;
+                cout << "4: Time" << endl;
+                cout << "5: Type" << endl;
+                cout << "6: Status" << endl;
+                cout << "********************************************************************************************" << endl << endl;
 
-            cout << "Criteria Selection: ";
-            cin >> criteria;
+                cout << "Criteria Selection: ";
+                cin >> criteria;
 
-            cout << "Please Select What Order to Use for Sorting: " << endl;
-            cout << "1: Ascending Order" << endl;
-            cout << "-1: Descending Order" << endl;
-            cout << "Order Selection: ";
-            cin >> option;
+                if (!cin.fail()) {
+                    if (criteria >= 0 && criteria <= 6) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+            }
+
+            while (true) {
+                cout << "Please Select What Order to Use for Sorting: " << endl;
+                cout << "1: Ascending Order" << endl;
+                cout << "-1: Descending Order" << endl;
+                cout << "Order Selection: ";
+                cin >> option;
+
+                if (!cin.fail()) {
+                    if (option == -1 || option == 1) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+            }
 
             pr = sort_records(pr, criteria, option);
-            cout << "\n[*] Purchase Order Record List has been sorted successfully!!" << endl;
+            cout << "\n [*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
             // search
@@ -241,6 +323,15 @@ void admin_screen(string name, Purchase_Records*& pr) {
         }
         else if (selection == 10) {
             // logout
+        }
+        else if (selection == 11) {
+            // exit
+        }
+        else {
+            // Input Validation
+            cout << "[X] Input Error! Please Enter the Correct Inputs!" << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
         }
     }
 }
