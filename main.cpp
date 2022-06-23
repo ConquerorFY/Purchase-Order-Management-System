@@ -10,8 +10,7 @@ Purchase_Records* pr = new Purchase_Records;
 int main() {
 	pr = obtain_records(pr);
 
-	// Sort Records
+	// Sort Records (in this case ascending order with time)
 	pr = sort_records(pr, 4, -1);
-	debug_view_sorted_records(pr);
 	return 0;
 }
