@@ -1,4 +1,4 @@
-
+/* Header File that Contains the User Class Definition */
 #pragma once
 #ifndef USER
 #define USER
