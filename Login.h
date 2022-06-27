@@ -39,7 +39,6 @@ User* obtain_users_list(User* head) {
 	if (myfile.is_open()) {
 		string line;
 		User* current = head;
-		cout << "If statement is running" << endl;
 		while (getline(myfile,line)) {
 			if (line_no > 1) {
 				string* index = split_string(line, ';');
@@ -61,6 +60,8 @@ User* obtain_users_list(User* head) {
 			}
 			line_no++;
 		}
+
+		
 		
 	}
 	return head;
@@ -80,7 +81,7 @@ User* obtain_users_list(User* head) {
 			break;
 		}
 	}
-	while (current != NULL) {
+	while (current != nullptr) {
 		if (username == current->get_username() && pass == current->get_password()) {
 
 			loginStatus = true; //set to true 
@@ -116,10 +117,17 @@ User* obtain_users_list(User* head) {
 
 void debug_view_user(User* head) {
 	User* current = head;
-	while (current != NULL) {
-		cout <<"Username:" <<current->get_username() << endl;
+
+	while (current != nullptr) {
+	
+			cout << "Username:" << current->get_username() << endl;
+			
 			current = current->next;
+			
+			
+		
 	}
+	
 }
 
 
