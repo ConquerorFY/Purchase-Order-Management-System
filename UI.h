@@ -1,3 +1,5 @@
+/* Header File for UI */
+
 #pragma once
 #ifndef UI
 #define UI
@@ -10,15 +12,24 @@
 #include <windows.h>
 #include "ObtainRecords.h"
 #include "SortRecords.h"
+#include "Login.h"
 
 using namespace std;
 
 bool key_clicked = false;
+Login* l;
+string role;
+string name;
 
+// Function Definitions
+void build_UI(Purchase_Records* pr, User* user);
+
+// Clear Console Screen
 void clear_screen() {
     system("cls");
 }
 
+// Keyevent Listener (Use as Thread to listen for keystrokes in the Welcome Screen)
 void keyevent_listener()
 {
     HANDLE hIn;
@@ -39,6 +50,7 @@ void keyevent_listener()
     }
 }
 
+// Welcome Screen
 void welcome_screen() {
 	time_t t = time(0);	// get time now
 	tm* now = localtime(&t);
@@ -79,11 +91,18 @@ void welcome_screen() {
 	}
 }
 
-void login_screen() {
+// Login Screen
+bool login_screen(User* user) {
     // login screen
+    cout << "--------------------------------------------------------------------------------------------" << endl;
+    cout << "Login Page: " << endl;
+    cout << "--------------------------------------------------------------------------------------------" << endl;
+    Login l(user);
+    return l.loginAccount(name, role);
 }
 
-void executives_screen(string name, Purchase_Records* &pr) {
+// Sale Executives Screen
+void executives_screen(string name, Purchase_Records* &pr, User* &user) {
     int selection = 0;
 
     while (selection != 8) {
@@ -191,6 +210,11 @@ void executives_screen(string name, Purchase_Records* &pr) {
         }
         else if (selection == 7) {
             // logout
+            Login l(user);
+            l.logoutAccount(name, role);
+            selection = 8;
+            cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
+            build_UI(pr, user);
         }
         else if (selection == 8) {
             // exit
@@ -204,7 +228,8 @@ void executives_screen(string name, Purchase_Records* &pr) {
     }
 }
 
-void admin_screen(string name, Purchase_Records*& pr) {
+// Admin Screen
+void admin_screen(string name, Purchase_Records*& pr, User*& user) {
     int selection = 0;
 
     while (selection != 11) {
@@ -323,6 +348,11 @@ void admin_screen(string name, Purchase_Records*& pr) {
         }
         else if (selection == 10) {
             // logout
+            Login l(user);
+            l.logoutAccount(name, role);
+            selection = 11;
+            cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
+            build_UI(pr, user);
         }
         else if (selection == 11) {
             // exit
@@ -336,15 +366,29 @@ void admin_screen(string name, Purchase_Records*& pr) {
     }
 }
 
-void build_UI(Purchase_Records* pr) {
+// Function to build UI
+void build_UI(Purchase_Records* pr, User* user) {
+    user = obtain_users_list(user);
+
     std::thread thread_obj(keyevent_listener);
     welcome_screen();
     thread_obj.join();
 
     clear_screen();
 
-    // executives_screen("Ryan", pr);
-    admin_screen("Ryan", pr);
+    if (login_screen(user)) {
+        clear_screen();
+
+        if (role == "sale") {
+            executives_screen(name, pr, user);
+        }
+        else if (role == "admin") {
+            admin_screen(name, pr, user);
+        }
+    }
+    else {
+        build_UI(pr, user);
+    }
 }
 
 #endif

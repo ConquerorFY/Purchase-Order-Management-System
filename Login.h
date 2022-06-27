@@ -1,3 +1,5 @@
+/* Header File that contain functions for logging into system */
+
 #pragma once
 #ifndef LOGIN
 #define LOGIN
@@ -8,33 +10,98 @@
 #include "Utils.h"
 using namespace std;
 
-class Login{
-private:
-	bool loginStatus;
-	bool isValidInput;
-public:
-	void validateInput(string a, string b);
-	void login();
-	void logout();
-
+class Login {
+	private:
+		bool loginStatus;
+		bool isValidInput;
+		User* head;
+	public:
+		Login(User* head);
+		void validateInput(string a, string b);
+		bool loginAccount(string &name, string &role);
+		bool logoutAccount(string &name, string &role);
+		void debug_view_user();
 };
 
-bool isValidInput(string usr, string pass) {
+Login::Login(User* head) {
+	this->head = head;
+	loginStatus = false;
+	isValidInput = false;
+}
 
+void Login::validateInput(string usr, string pass) {
 	if (!usr.empty() && !pass.empty()) {
+		isValidInput = true;
+	}
+	else {
+		cout << "Cannot enter empty credentials, Please try again!!" << endl;
+		isValidInput = false;
+	}
+}
 
+bool Login::loginAccount(string &name, string &role) {
+	User* current = head;
+	string username, pass;
+
+	while (true) {
+		cout << "Username: ";
+		getline(cin, username);
+		cout << "Password: ";
+		getline(cin, pass);
+
+		validateInput(username, pass);
+		if (isValidInput) {
+			break;
+		}
+	}
+
+	while (current != nullptr) {
+		if (username == current->get_username() && pass == current->get_password()) {
+			loginStatus = true; // set to true 
+			role = current->get_role();
+			name = current->get_user_full_name();
+			break;
+		}
+		else {
+			loginStatus = false; // set to false 
+		}
+		current = current->next;
+	}
+
+	if (loginStatus) {
+		cout << "Login Success!!" << endl; 
 		return true;
 	}
 	else {
-		cout << "cannot enter empty credentials,please try again" << endl;
+		cout << "Invalid Credentials!!" << endl;
 		return false;
-
 	}
 }
+
+bool Login::logoutAccount(string& name, string& role) {
+	loginStatus = false;
+	isValidInput = false;
+	name = "";
+	role = "";
+
+	cout << "Logout Successful!!" << endl;
+	return true;
+}
+
+void Login::debug_view_user() {
+	User* current = head;
+
+	while (current != nullptr) {
+		cout << "Username:" << current->get_username() << endl;
+		current = current->next;
+	}
+}
+
 User* obtain_users_list(User* head) {
 	fstream myfile;
 	int line_no = 1;
 	bool first = true;
+
 	myfile.open("Account.txt", ios::in);
 	if (myfile.is_open()) {
 		string line;
@@ -60,78 +127,9 @@ User* obtain_users_list(User* head) {
 			}
 			line_no++;
 		}
-
-		
-		
+		myfile.close();
 	}
 	return head;
 }
- void login(User* head) {
-	 User* current = head;
-	string username, pass;
-	bool loginStatus;
-	
-	while (true) {
-
-		cout << "Username:" << endl;
-		getline(cin, username);
-		cout << "Password:" << endl;
-		getline(cin, pass);
-		if (isValidInput(username, pass)) {
-			break;
-		}
-	}
-	while (current != nullptr) {
-		if (username == current->get_username() && pass == current->get_password()) {
-
-			loginStatus = true; //set to true 
-			break;
-			
-
-		}
-		else {
-			
-			loginStatus = false; //set to false 
-			
-		}
-
-		current = current->next;
-
-		
-
-	
-	}
-
-			
-
-	if (loginStatus) {
-		cout << "Login Success!" << endl;
-		//continue the program 
-	}
-	else {
-		cout << "Invalid Credentials!" << endl;;
-	}
-
-
-}
-
-void debug_view_user(User* head) {
-	User* current = head;
-
-	while (current != nullptr) {
-	
-			cout << "Username:" << current->get_username() << endl;
-			
-			current = current->next;
-			
-			
-		
-	}
-	
-}
-
-
-
-
 
 #endif
