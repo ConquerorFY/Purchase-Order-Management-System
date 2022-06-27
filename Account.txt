@@ -1,0 +1,3 @@
+//name;username;password;role;
+abby;abby12;123;sale;
+peter;peter67;321;admin;
