@@ -13,16 +13,18 @@
 #include "ObtainRecords.h"
 #include "SortRecords.h"
 #include "Login.h"
+#include "ViewRecords.h"
 
 using namespace std;
 
-bool key_clicked = false;
+int key_clicked = 0;
+bool stop = false;
 Login* l;
 string role;
 string name;
 
 // Function Definitions
-void build_UI(Purchase_Records* pr, User* user);
+void build_UI(Purchase_Records* pr, User* user, bool is_first);
 
 // Clear Console Screen
 void clear_screen() {
@@ -39,19 +41,19 @@ void keyevent_listener()
 
     hIn = GetStdHandle(STD_INPUT_HANDLE);
 
-    while (true)
+    while (!stop)
     {
         ReadConsoleInput(hIn, &InRec, 1, &NumRead);
 
         if (InRec.EventType == KEY_EVENT) {
-            key_clicked = true;
-            break;
+            key_clicked++;
+            // break;
         }
     }
 }
 
 // Welcome Screen
-void welcome_screen() {
+void welcome_screen(bool &is_first) {
 	time_t t = time(0);	// get time now
 	tm* now = localtime(&t);
 
@@ -71,22 +73,46 @@ void welcome_screen() {
 		int min = now->tm_min;
 		int sec = now->tm_sec;
 
-		cout << "Time: " << hour << ":" << min << ":" << sec;
+        if (is_first) {
+            cout << "Time: " << hour << ":" << min << ":" << sec;
 
-		std::chrono::seconds dura(1);
-		std::this_thread::sleep_for(dura);
+            std::chrono::seconds dura(1);
+            std::this_thread::sleep_for(dura);
 
-		printf("\33[2K\r");
+            printf("\33[2K\r");
 
-        if (key_clicked) {
-            time_t t = time(0);	// get time now
-            tm* now = localtime(&t);
-            int hour = now->tm_hour;
-            int min = now->tm_min;
-            int sec = now->tm_sec;
+            if (key_clicked > 0) {
+                stop = true;
+                time_t t = time(0);	// get time now
+                tm* now = localtime(&t);
+                int hour = now->tm_hour;
+                int min = now->tm_min;
+                int sec = now->tm_sec;
 
-            cout << "Time: " << hour << ":" << min << ":" << sec << endl;
-            break;
+                cout << "Time: " << hour << ":" << min << ":" << sec << endl;
+                break;
+            }
+        }
+
+        else if (!is_first) {
+            cout << "Time: " << hour << ":" << min << ":" << sec;
+
+            std::chrono::seconds dura(1);
+            std::this_thread::sleep_for(dura);
+
+            printf("\33[2K\r");
+
+            if (key_clicked > 1) {
+                stop = true;
+                time_t t = time(0);	// get time now
+                tm* now = localtime(&t);
+                int hour = now->tm_hour;
+                int min = now->tm_min;
+                int sec = now->tm_sec;
+
+                cout << "Time: " << hour << ":" << min << ":" << sec << endl;
+                break;
+            }
         }
 	}
 }
@@ -134,9 +160,9 @@ void executives_screen(string name, Purchase_Records* &pr, User* &user) {
         }
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
-            cout << "********************************************************************************************" << endl;
-            debug_view_records(pr);
-            cout << "********************************************************************************************" << endl << endl;
+            cout << "*****************************************************************************************************************************************" << endl;
+            display_order_table(pr);
+            cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
             int criteria;
@@ -214,7 +240,7 @@ void executives_screen(string name, Purchase_Records* &pr, User* &user) {
             l.logoutAccount(name, role);
             selection = 8;
             cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user);
+            build_UI(pr, user, false);
         }
         else if (selection == 8) {
             // exit
@@ -264,9 +290,9 @@ void admin_screen(string name, Purchase_Records*& pr, User*& user) {
         }
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
-            cout << "********************************************************************************************" << endl;
-            debug_view_records(pr);
-            cout << "********************************************************************************************" << endl;
+            cout << "*****************************************************************************************************************************************" << endl;
+            display_order_table(pr);
+            cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
             int criteria;
@@ -352,7 +378,7 @@ void admin_screen(string name, Purchase_Records*& pr, User*& user) {
             l.logoutAccount(name, role);
             selection = 11;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user);
+            build_UI(pr, user, false);
         }
         else if (selection == 11) {
             // exit
@@ -367,12 +393,14 @@ void admin_screen(string name, Purchase_Records*& pr, User*& user) {
 }
 
 // Function to build UI
-void build_UI(Purchase_Records* pr, User* user) {
+void build_UI(Purchase_Records* pr, User* user, bool is_first) {
     user = obtain_users_list(user);
+    stop = false;
+    key_clicked = 0;
 
     std::thread thread_obj(keyevent_listener);
-    welcome_screen();
-    thread_obj.join();
+    welcome_screen(is_first);
+    // thread_obj.join();
 
     clear_screen();
 
@@ -387,7 +415,7 @@ void build_UI(Purchase_Records* pr, User* user) {
         }
     }
     else {
-        build_UI(pr, user);
+        build_UI(pr, user, false);
     }
 }
 

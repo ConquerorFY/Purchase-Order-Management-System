@@ -19,7 +19,7 @@ int main() {
 	//// Sort Records
 	//pr = sort_records(pr, 4, -1);
 
-	build_UI(pr, user);
+	build_UI(pr, user, true);
 
 	return 0;
 }

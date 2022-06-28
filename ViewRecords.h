@@ -1,3 +1,5 @@
+/* Header File for Viewing Purchase Order Record Details in Table Form */
+
 #pragma once
 #ifndef VIEWRECORDS
 #define VIEWRECORDS

@@ -48,7 +48,7 @@ bool Login::loginAccount(string &name, string &role) {
 		getline(cin, username);
 		cout << "Password: ";
 		getline(cin, pass);
-
+		
 		validateInput(username, pass);
 		if (isValidInput) {
 			break;
