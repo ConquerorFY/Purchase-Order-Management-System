@@ -1,4 +1,4 @@
-/* Header File that contain functions for logging into system */
+/* Header File that contain functions for logging into system and obtain user's list from file */
 
 #pragma once
 #ifndef LOGIN
