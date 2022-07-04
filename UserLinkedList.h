@@ -14,6 +14,8 @@ class User_Linked_List {
 		int size;
 		User* head;
 	public:
+		void obtain_users_list() {};
+		User* validate_login_details(string username, string password) {};
 };
 
 #endif

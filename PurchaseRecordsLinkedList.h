@@ -13,7 +13,17 @@ class Purchase_Records_Linked_List {
 	private:
 		int size;
 		Purchase_Records* head;
+
+		Purchase_Records* merge(Purchase_Records* left, Purchase_Records* right, int criteria, int order) {};
+		Purchase_Records* mid_point() {};
+		Purchase_Records* merge_sort(int criteria, int order) {};
+
 	public:
+		void obtain_records() {};
+		void update_records() {};
+		void display_order_table() {};
+		void sort_records(int option, int order) {};
+		void search_records(int id) {};
 };
 
 #endif
