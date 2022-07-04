@@ -17,14 +17,13 @@
 
 using namespace std;
 
-int key_clicked = 0;
+bool key_clicked = false;
 bool stop = false;
 Login* l;
-string role;
-string name;
+User* login_user;
 
 // Function Definitions
-void build_UI(Purchase_Records* pr, User* user, bool is_first);
+void build_UI(Purchase_Records* pr, User_Linked_List* user, bool is_first);
 
 // Clear Console Screen
 void clear_screen() {
@@ -42,11 +41,13 @@ void keyevent_listener()
     hIn = GetStdHandle(STD_INPUT_HANDLE);
 
     while (!stop)
-    {
+    {   
         ReadConsoleInput(hIn, &InRec, 1, &NumRead);
 
         if (InRec.EventType == KEY_EVENT) {
-            key_clicked++;
+            key_clicked = true;
+            stop = true;
+            //  cout << key_clicked;
             // break;
         }
     }
@@ -81,7 +82,7 @@ void welcome_screen(bool &is_first) {
 
             printf("\33[2K\r");
 
-            if (key_clicked > 0) {
+            if (key_clicked) {
                 stop = true;
                 time_t t = time(0);	// get time now
                 tm* now = localtime(&t);
@@ -102,7 +103,7 @@ void welcome_screen(bool &is_first) {
 
             printf("\33[2K\r");
 
-            if (key_clicked > 1) {
+            if (key_clicked) {
                 stop = true;
                 time_t t = time(0);	// get time now
                 tm* now = localtime(&t);
@@ -118,17 +119,17 @@ void welcome_screen(bool &is_first) {
 }
 
 // Login Screen
-bool login_screen(User* user) {
+bool login_screen(User_Linked_List* user) {
     // login screen
     cout << "--------------------------------------------------------------------------------------------" << endl;
     cout << "Login Page: " << endl;
     cout << "--------------------------------------------------------------------------------------------" << endl;
-    Login l(user);
-    return l.loginAccount(name, role);
+    l = new Login(user);
+    return l->loginAccount(login_user);
 }
 
 // Sale Executives Screen
-void executives_screen(string name, Purchase_Records* &pr, User* &user) {
+void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* user) {
     int selection = 0;
 
     while (selection != 8) {
@@ -236,8 +237,7 @@ void executives_screen(string name, Purchase_Records* &pr, User* &user) {
         }
         else if (selection == 7) {
             // logout
-            Login l(user);
-            l.logoutAccount(name, role);
+            l->logoutAccount(login_user);
             selection = 8;
             cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
             build_UI(pr, user, false);
@@ -255,7 +255,7 @@ void executives_screen(string name, Purchase_Records* &pr, User* &user) {
 }
 
 // Admin Screen
-void admin_screen(string name, Purchase_Records*& pr, User*& user) {
+void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
     int selection = 0;
 
     while (selection != 11) {
@@ -374,8 +374,7 @@ void admin_screen(string name, Purchase_Records*& pr, User*& user) {
         }
         else if (selection == 10) {
             // logout
-            Login l(user);
-            l.logoutAccount(name, role);
+            l->logoutAccount(login_user);
             selection = 11;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
             build_UI(pr, user, false);
@@ -393,25 +392,25 @@ void admin_screen(string name, Purchase_Records*& pr, User*& user) {
 }
 
 // Function to build UI
-void build_UI(Purchase_Records* pr, User* user, bool is_first) {
-    user = obtain_users_list(user);
+void build_UI(Purchase_Records* pr, User_Linked_List* user, bool is_first) {
+    user->obtain_users_list();
+
     stop = false;
-    key_clicked = 0;
+    key_clicked = false;
 
     std::thread thread_obj(keyevent_listener);
     welcome_screen(is_first);
-    // thread_obj.join();
+    thread_obj.join();
 
     clear_screen();
-
     if (login_screen(user)) {
         clear_screen();
 
-        if (role == "sale") {
-            executives_screen(name, pr, user);
+        if (login_user->get_role() == "sale") {
+            executives_screen(login_user->get_user_full_name(), pr, user);
         }
-        else if (role == "admin") {
-            admin_screen(name, pr, user);
+        else if (login_user->get_role() == "admin") {
+            admin_screen(login_user->get_user_full_name(), pr, user);
         }
     }
     else {

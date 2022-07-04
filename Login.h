@@ -14,17 +14,17 @@ class Login {
 	private:
 		bool loginStatus;
 		bool isValidInput;
-		User* head;
+		User_Linked_List* user;
 	public:
-		Login(User* head);
+		Login(User_Linked_List* head);
 		void validateInput(string a, string b);
-		bool loginAccount(string &name, string &role);
-		bool logoutAccount(string &name, string &role);
+		bool loginAccount(User* &user);
+		bool logoutAccount(User* &user);
 		void debug_view_user();
 };
 
-Login::Login(User* head) {
-	this->head = head;
+Login::Login(User_Linked_List* user) {
+	this->user = user;
 	loginStatus = false;
 	isValidInput = false;
 }
@@ -39,8 +39,7 @@ void Login::validateInput(string usr, string pass) {
 	}
 }
 
-bool Login::loginAccount(string &name, string &role) {
-	User* current = head;
+bool Login::loginAccount(User* &user) {
 	string username, pass;
 
 	while (true) {
@@ -55,18 +54,7 @@ bool Login::loginAccount(string &name, string &role) {
 		}
 	}
 
-	while (current != nullptr) {
-		if (username == current->get_username() && pass == current->get_password()) {
-			loginStatus = true; // set to true 
-			role = current->get_role();
-			name = current->get_user_full_name();
-			break;
-		}
-		else {
-			loginStatus = false; // set to false 
-		}
-		current = current->next;
-	}
+	user = this->user->validate_login_details(username, pass, loginStatus);
 
 	if (loginStatus) {
 		cout << "Login Success!!" << endl; 
@@ -78,58 +66,22 @@ bool Login::loginAccount(string &name, string &role) {
 	}
 }
 
-bool Login::logoutAccount(string& name, string& role) {
+bool Login::logoutAccount(User* &user) {
 	loginStatus = false;
 	isValidInput = false;
-	name = "";
-	role = "";
+	user = NULL;
 
 	cout << "Logout Successful!!" << endl;
 	return true;
 }
 
-void Login::debug_view_user() {
-	User* current = head;
-
-	while (current != nullptr) {
-		cout << "Username:" << current->get_username() << endl;
-		current = current->next;
-	}
-}
-
-User* obtain_users_list(User* head) {
-	fstream myfile;
-	int line_no = 1;
-	bool first = true;
-
-	myfile.open("Account.txt", ios::in);
-	if (myfile.is_open()) {
-		string line;
-		User* current = head;
-		while (getline(myfile,line)) {
-			if (line_no > 1) {
-				string* index = split_string(line, ';');
-
-				User* usr = new User;
-				usr->set_user_full_name(index[0]);
-				usr->set_username(index[1]);
-				usr->set_password(index[2]);
-				usr->set_role(index[3]);
-				usr->next = NULL;
-
-				current->next = usr;
-				current = usr;
-
-				if (first) {
-					head = current;
-					first = false;
-				}
-			}
-			line_no++;
-		}
-		myfile.close();
-	}
-	return head;
-}
+//void Login::debug_view_user() {
+//	User* current = head;
+//
+//	while (current != nullptr) {
+//		cout << "Username:" << current->get_username() << endl;
+//		current = current->next;
+//	}
+//}
 
 #endif

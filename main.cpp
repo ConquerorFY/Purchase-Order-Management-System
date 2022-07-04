@@ -3,6 +3,7 @@
 #include <iostream>
 #include "PurchaseRecords.h"
 #include "User.h"
+#include "UserLinkedList.h"
 #include "UI.h"
 
 using namespace std;
@@ -11,7 +12,7 @@ using namespace std;
 Purchase_Records* pr = new Purchase_Records;
 
 // Store user accounts as Linked-List
-User* user = new User;
+User_Linked_List* user = new User_Linked_List;
 
 int main() {
 	//pr = obtain_records(pr);
