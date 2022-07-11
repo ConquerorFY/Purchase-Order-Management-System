@@ -1,0 +1,10 @@
+﻿  main.cpp
+C:\Users\admin\Desktop\C++ Programming (Degree)\Assignment\Purchase Order Management System\Purchase Order Management System\UI.h(21,11): warning C4101: 'MouseWhere': unreferenced local variable
+C:\Users\admin\Desktop\C++ Programming (Degree)\Assignment\Purchase Order Management System\Purchase Order Management System\UI.h(20,11): warning C4101: 'KeyWhere': unreferenced local variable
+C:\Users\admin\Desktop\C++ Programming (Degree)\Assignment\Purchase Order Management System\Purchase Order Management System\UI.h(22,11): warning C4101: 'EndWhere': unreferenced local variable
+  Generating code
+  1 of 235 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Purchase Order Management System.vcxproj -> C:\Users\admin\Desktop\C++ Programming (Degree)\Assignment\Purchase Order Management System\Release\Purchase Order Management System.exe

@@ -1,4 +1,4 @@
 // Format: OrderID%Client ID%Client Name%Item IDs%Price%Date%Time%Type%Status
-001%010%John%011,012,013%100.50%2022-01-01%01:40pm%Bulky%Not Processed
-002%011%Jason%012%30%2022-01-02%02:40pm%Single%Not Processed
-003%012%Jimmy%013,014,015%71.50%2022-01-02%03:40pm%Bulky%Processed
+001%012%John%011,012,013%100.50%2021-01-01%01:40 am%Bulky%Not Processed
+002%010%Jason%012%30%2022-10-02%12:40 pm%Single%Not Processed
+003%011%Jimmy%013,014,015%71.50%2022-11-02%03:40 am%Bulky%Processed
