@@ -23,6 +23,7 @@ class Purchase_Records_Linked_List {
 		Purchase_Records* mid_point(Purchase_Records* node);
 		Purchase_Records* merge_sort(Purchase_Records* node, int criteria, int order);
 		Purchase_Records* clone_list();
+		void delete_clone_list(Purchase_Records* clone_head);
 
 	public:
 		void obtain_records();
@@ -71,6 +72,7 @@ void Purchase_Records_Linked_List::obtain_records() {
 			}
 			line_no++;
 		}
+		size = line_no;
 		newfile.close();
 	}
 }
@@ -423,6 +425,7 @@ void Purchase_Records_Linked_List::sort_records(int option, int order) {
 	Purchase_Records* clone_head = clone_list();
 	Purchase_Records* sorted_head = merge_sort(clone_head, option, order);
 	display_order_table(sorted_head);
+	delete_clone_list(sorted_head);
 }
 
 // Clone the original linked list before sorting to avoid mutation directly
@@ -458,8 +461,20 @@ Purchase_Records* Purchase_Records_Linked_List::clone_list() {
 	}
 
 	new_current->next = nullptr;
-	// display_order_table(new_head);
 	return new_head;
+}
+
+// Delete every element of the clone list from heap
+void Purchase_Records_Linked_List::delete_clone_list(Purchase_Records* clone_head) {
+	Purchase_Records* current = clone_head;
+
+	while (current != NULL) {
+		Purchase_Records* target = current;
+		current = current->next;
+
+		target->next = NULL;
+		delete target;
+	}
 }
 
 #endif
