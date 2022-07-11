@@ -205,8 +205,8 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
 
             while (true) {
                 cout << "Please Select What Order to Use for Sorting: " << endl;
-                cout << "1: Ascending Order" << endl;
-                cout << "-1: Descending Order" << endl;
+                cout << "1: Ascending Order (Small -> Big; Latest -> Oldest; Bulky -> Single; Not Processed -> Processed)" << endl;
+                cout << "-1: Descending Order (Big -> Small; Oldest -> Latest; Single -> Bulky; Processed -> Not Processed)" << endl;
                 cout << "Order Selection: ";
                 cin >> option;
 
@@ -333,8 +333,8 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 
             while (true) {
                 cout << "Please Select What Order to Use for Sorting: " << endl;
-                cout << "1: Ascending Order" << endl;
-                cout << "-1: Descending Order" << endl;
+                cout << "1: Ascending Order (Small -> Big; Latest -> Oldest; Bulky -> Single; Not Processed -> Processed)" << endl;
+                cout << "-1: Descending Order (Big -> Small; Oldest -> Latest; Single -> Bulky; Processed -> Not Processed)" << endl;
                 cout << "Order Selection: ";
                 cin >> option;
 
