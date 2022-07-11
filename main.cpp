@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "PurchaseRecords.h"
+#include "PurchaseRecordsLinkedList.h"
 #include "User.h"
 #include "UserLinkedList.h"
 #include "UI.h"
@@ -9,7 +10,7 @@
 using namespace std;
 
 // Store purchase records as Linked-List
-Purchase_Records* pr = new Purchase_Records;
+Purchase_Records_Linked_List* pr = new Purchase_Records_Linked_List;
 
 // Store user accounts as Linked-List
 User_Linked_List* user = new User_Linked_List;

@@ -14,6 +14,7 @@
 #include "SortRecords.h"
 #include "Login.h"
 #include "ViewRecords.h"
+#include "PurchaseRecordsLinkedList.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ Login* l;
 User* login_user;
 
 // Function Definitions
-void build_UI(Purchase_Records* pr, User_Linked_List* user, bool is_first);
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, bool is_first);
 
 // Clear Console Screen
 void clear_screen() {
@@ -129,7 +130,7 @@ bool login_screen(User_Linked_List* user) {
 }
 
 // Sale Executives Screen
-void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* user) {
+void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user) {
     int selection = 0;
 
     while (selection != 8) {
@@ -152,7 +153,7 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
 
         clear_screen();
         if (selection == 1) {
-            pr = obtain_records(pr);
+            pr->obtain_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl << endl;
         }
@@ -162,7 +163,7 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
-            display_order_table(pr);
+            pr->display_order_table();
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
@@ -226,7 +227,7 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
                 }
             }
 
-            pr = sort_records(pr, criteria, option);
+            pr->sort_records(criteria, option);
             cout << "\n[*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
@@ -255,7 +256,7 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
 }
 
 // Admin Screen
-void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
+void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user) {
     int selection = 0;
 
     while (selection != 11) {
@@ -281,7 +282,7 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
 
         clear_screen();
         if (selection == 1) {
-            pr = obtain_records(pr);
+            pr->obtain_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl;
         }
@@ -291,7 +292,7 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
-            display_order_table(pr);
+            pr->display_order_table();
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
@@ -354,7 +355,7 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
                 }
             }
 
-            pr = sort_records(pr, criteria, option);
+            pr->sort_records(criteria, option);
             cout << "\n [*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
@@ -392,7 +393,7 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
 }
 
 // Function to build UI
-void build_UI(Purchase_Records* pr, User_Linked_List* user, bool is_first) {
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, bool is_first) {
     user->obtain_users_list();
 
     stop = false;
