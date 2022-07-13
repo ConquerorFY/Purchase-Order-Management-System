@@ -7,11 +7,13 @@
 #include <fstream> 
 #include <string>
 #include "PurchaseRecordsLinkedList.h"
+#include "SummaryReportsLinkedList.h"
 using namespace std;
 
 class User {
 	private:
 		Purchase_Records_Linked_List* ll;
+		Summary_Reports_Linked_List* sl;
 		string full_name;
 		string username;
 		string password;
@@ -25,6 +27,10 @@ class User {
 		string get_role(void) { return role; }
 
 		void set_purchase_records_linked_list(Purchase_Records_Linked_List* ll) { this->ll = ll; }
+		void set_summary_reports_linked_list(Summary_Reports_Linked_List* sl) { 
+			this->sl = sl; 
+			this->sl->set_purchase_records_linked_list(ll);
+		}
 		void set_user_full_name(string name) { full_name = name; }
 		void set_username(string usrname) { username = usrname; }
 		void set_password(string pass) { password = pass; }
@@ -44,11 +50,15 @@ class User {
 		};
 		void search_purchase_records(int id) {};
 		
-		void generate_summary_report(string month, int year) {};
+		void generate_summary_report(int month, int year) {
+			sl->update_summary_report_list(month, year);
+		};
 		void generate_detailed_report(int id) {};
 		void sort_summary_reports(int order) {};
 		void sort_detailed_reports(int order) {};
-		void view_summary_reports() {};
+		void view_summary_reports() {
+			sl->view_summary_report_list();
+		};
 		void view_detailed_reports() {};
 };
 

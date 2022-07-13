@@ -10,19 +10,19 @@ using namespace std;
 
 class Summary_Report {
 private:
-	Purchase_Records* filtered_pr;
 	Purchase_Records** records_arr;
 	int index = 0;
 
 	int report_id;
 	int month;
 	int year;
+	string month_name[12] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
-	int completed_orders;
-	int uncompleted_orders;
-	int bulk_orders;
-	int single_orders;
-	int total_profit;
+	int completed_orders = 0;
+	int uncompleted_orders = 0;
+	int bulk_orders = 0;
+	int single_orders = 0;
+	double total_profit = 0;
 
 public:
 	Summary_Report* next;
@@ -36,16 +36,45 @@ public:
 	void set_month(int month) { this->month = month; };
 	void set_year(int year) { this->year = year; };
 
+	// Filter the Purchase Records based on month and year
 	void get_sorted_purchase_records(Purchase_Records_Linked_List* pr) {
-		filtered_pr = pr->sort_records(3, 1);
 		records_arr = new Purchase_Records * [pr->get_size()];
 
-		Purchase_Records* current = filtered_pr;
+		Purchase_Records* current = pr->get_head();
 		while (current != NULL) {
 			if (compare_equal_month(current->get_date(), month) && compare_equal_year(current->get_date(), year)) {
 				records_arr[index] = current;
 				index++;
 			}
+			current = current->next;
+		}
+	}
+
+	// Get the different summary report data
+	void get_report_data() {
+		int count = 0;
+		while (count < index) {
+			if (records_arr[count]->get_status() == "Not Processed") {
+				// Increment Unmanaged Orders Count
+				uncompleted_orders++;
+			}
+			else if (records_arr[count]->get_status() == "Processed") {
+				// Increment Managed Orders Count
+				completed_orders++;
+			}
+
+			if (records_arr[count]->get_type() == "Bulky") {
+				// Increment Bulky Orders Count
+				bulk_orders++;
+			}
+			else if (records_arr[count]->get_type() == "Single") {
+				// Increment Single Orders Count
+				single_orders++;
+			}
+
+			// Calculate total profit earned
+			total_profit += records_arr[count]->get_price();
+			count++;
 		}
 	}
 
@@ -53,6 +82,8 @@ public:
 	void display_summary_report() {
 		double n = 1;
 		int colWidth = 15;
+
+		cout << "\n\n\t\t\t\t\t\t" << month_name[month - 1] << " " << year << " Summary Report for LiveOrder Sdn Bhd" << endl << endl;
 		//table header 
 		//set column width 
 		cout << setfill('-') << setw(9 * colWidth) << "*" << endl;
@@ -73,7 +104,7 @@ public:
 
 		int count = 0;
 		// create table of data 
-		while (count <= index) {
+		while (count < index) {
 			cout << setw(colWidth) <<
 				records_arr[count]->get_order_id() << setw(colWidth) <<
 				records_arr[count]->get_client_id() << setw(colWidth) <<
@@ -88,6 +119,13 @@ public:
 			count++;
 		}
 		cout << setfill('-') << setw(9 * colWidth) << "*" << endl;
+
+		cout << endl;
+		cout << "\tTotal Completed / Managed Orders: " << completed_orders << endl;
+		cout << "\tTotal Uncompleted / Unmanaged Orders: " << uncompleted_orders << endl;
+		cout << "\tTotal Bulky Orders: " << bulk_orders << endl;
+		cout << "\tTotal Single Orders: " << single_orders << endl;
+		cout << "\tTotal Profit Earned: " << total_profit << endl;
 	}
 };
 

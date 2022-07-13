@@ -26,6 +26,7 @@ class Purchase_Records_Linked_List {
 
 	public:
 		int get_size();
+		Purchase_Records* get_head();
 		void obtain_records();
 		void update_records();
 		void display_order_table();
@@ -37,6 +38,10 @@ class Purchase_Records_Linked_List {
 
 int Purchase_Records_Linked_List::get_size() {
 	return size;
+}
+
+Purchase_Records* Purchase_Records_Linked_List::get_head() {
+	return head;
 }
 
 //  Obtaining Purchase Records From Text File (PurchaseRecords.txt)

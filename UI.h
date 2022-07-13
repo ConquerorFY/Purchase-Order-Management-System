@@ -15,6 +15,7 @@
 #include "Login.h"
 #include "ViewRecords.h"
 #include "PurchaseRecordsLinkedList.h"
+#include "SummaryReportsLinkedList.h"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ Login* l;
 User* login_user;
 
 // Function Definitions
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, bool is_first);
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, bool is_first);
 
 // Clear Console Screen
 void clear_screen() {
@@ -130,7 +131,7 @@ bool login_screen(User_Linked_List* user) {
 }
 
 // Sale Executives Screen
-void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user) {
+void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary) {
     int selection = 0;
 
     while (selection != 8) {
@@ -241,7 +242,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
             l->logoutAccount(login_user);
             selection = 8;
             cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, false);
+            build_UI(pr, user, summary, false);
         }
         else if (selection == 8) {
             // exit
@@ -256,10 +257,10 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
 }
 
 // Admin Screen
-void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user) {
+void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary) {
     int selection = 0;
 
-    while (selection != 11) {
+    while (selection != 10) {
         cout << "Welcome, " << name << "!" << endl << endl;
         cout << "********************************************************************************************" << endl;
         cout << "What do you want to do? " << endl;
@@ -270,11 +271,10 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         cout << "4. Sort Purchase Order Records According to Criteria Specified" << endl;
         cout << "5. Search Purchase Order Record Based on Order ID or other parameters" << endl;
         cout << "6. Generate Summary Order Reports" << endl;
-        cout << "7. View Order Reports List" << endl;
-        cout << "8. View Order Report Details" << endl;
-        cout << "9. Sort Order Reports List" << endl;
-        cout << "10. Logout" << endl;
-        cout << "11. Exit" << endl;
+        cout << "7. View Order Reports" << endl;
+        cout << "8. Sort Order Reports" << endl;
+        cout << "9. Logout" << endl;
+        cout << "10. Exit" << endl;
         cout << "********************************************************************************************" << endl << endl;
 
         cout << "Action Selection: ";
@@ -362,25 +362,30 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             // search
         }
         else if (selection == 6) {
-            // generate summary report
+            int month, year;
+            cout << "Please enter month of summary report (1-12): ";
+            cin >> month;
+            cout << "Please enter year of summary report (0000-9999): ";
+            cin >> year;
+
+            login_user->generate_summary_report(month, year);
+            cout << "\n [*] Summary Report has been generated successfully!!" << endl;
         }
         else if (selection == 7) {
-            // view order report lists
+            // view order reports
+            login_user->view_summary_reports();
         }
         else if (selection == 8) {
-            // view order report details
+            // sort order reports
         }
         else if (selection == 9) {
-            // sort order report list
-        }
-        else if (selection == 10) {
             // logout
             l->logoutAccount(login_user);
             selection = 11;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, false);
+            build_UI(pr, user, summary, false);
         }
-        else if (selection == 11) {
+        else if (selection == 10) {
             // exit
         }
         else {
@@ -393,7 +398,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 }
 
 // Function to build UI
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, bool is_first) {
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, bool is_first) {
     user->obtain_users_list();
 
     stop = false;
@@ -407,16 +412,17 @@ void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, bool is_
     if (login_screen(user)) {
         clear_screen();
         login_user->set_purchase_records_linked_list(pr);
+        login_user->set_summary_reports_linked_list(summary);
 
         if (login_user->get_role() == "sale") {
-            executives_screen(login_user->get_user_full_name(), pr, user);
+            executives_screen(login_user->get_user_full_name(), pr, user, summary);
         }
         else if (login_user->get_role() == "admin") {
-            admin_screen(login_user->get_user_full_name(), pr, user);
+            admin_screen(login_user->get_user_full_name(), pr, user, summary);
         }
     }
     else {
-        build_UI(pr, user, false);
+        build_UI(pr, user, summary, false);
     }
 }
 
