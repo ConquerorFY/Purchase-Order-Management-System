@@ -23,16 +23,21 @@ class Purchase_Records_Linked_List {
 		Purchase_Records* mid_point(Purchase_Records* node);
 		Purchase_Records* merge_sort(Purchase_Records* node, int criteria, int order);
 		Purchase_Records* clone_list();
-		void delete_clone_list(Purchase_Records* clone_head);
 
 	public:
+		int get_size();
 		void obtain_records();
 		void update_records();
 		void display_order_table();
 		void display_order_table(Purchase_Records* new_head);
-		void sort_records(int option, int order);
+		Purchase_Records* sort_records(int option, int order);
 		void search_records(int id);
+		void delete_clone_list(Purchase_Records* clone_head);
 };
+
+int Purchase_Records_Linked_List::get_size() {
+	return size;
+}
 
 //  Obtaining Purchase Records From Text File (PurchaseRecords.txt)
 void Purchase_Records_Linked_List::obtain_records() {
@@ -108,7 +113,7 @@ void Purchase_Records_Linked_List::display_order_table() {
 			current->get_client_id() << setw(colWidth) <<
 			current->get_client_name() << setw(colWidth) <<
 			current->get_item_ids() << setw(colWidth) <<
-			current->get_price() << setw(colWidth) <<
+			setprecision(2) << current->get_price() << setw(colWidth) <<
 			current->get_date() << setw(colWidth) <<
 			current->get_time() << setw(colWidth) <<
 			current->get_type() << setw(colWidth) <<
@@ -408,7 +413,7 @@ Purchase_Records* Purchase_Records_Linked_List::merge_sort(Purchase_Records* nod
 
 // ***********************************************************************************
 
-void Purchase_Records_Linked_List::sort_records(int option, int order) {
+Purchase_Records* Purchase_Records_Linked_List::sort_records(int option, int order) {
 	// Options: 
 	// 0: Order ID
 	// 1: Client ID
@@ -424,8 +429,7 @@ void Purchase_Records_Linked_List::sort_records(int option, int order) {
 
 	Purchase_Records* clone_head = clone_list();
 	Purchase_Records* sorted_head = merge_sort(clone_head, option, order);
-	display_order_table(sorted_head);
-	delete_clone_list(sorted_head);
+	return sorted_head;
 }
 
 // Clone the original linked list before sorting to avoid mutation directly

@@ -11,6 +11,7 @@ using namespace std;
 
 class User {
 	private:
+		Purchase_Records_Linked_List* ll;
 		string full_name;
 		string username;
 		string password;
@@ -23,16 +24,25 @@ class User {
 		string get_password(void) { return password; }
 		string get_role(void) { return role; }
 
+		void set_purchase_records_linked_list(Purchase_Records_Linked_List* ll) { this->ll = ll; }
 		void set_user_full_name(string name) { full_name = name; }
 		void set_username(string usrname) { username = usrname; }
 		void set_password(string pass) { password = pass; }
 		void set_role(string usrrole) { role = usrrole; }
 
-		void obtain_purchase_records(Purchase_Records_Linked_List* ll) {};
-		void update_purchase_record(Purchase_Records_Linked_List* ll) {};
-		void display_purchase_records(Purchase_Records_Linked_List* ll) {};
-		void sort_purchase_records(Purchase_Records_Linked_List* ll, int option, int order) {};
-		void search_purchase_records(Purchase_Records_Linked_List* ll, int id) {};
+		void obtain_purchase_records() {
+			ll->obtain_records();
+		};
+		void update_purchase_record() {};
+		void display_purchase_records() {
+			ll->display_order_table();
+		};
+		void sort_purchase_records(int option, int order) {
+			Purchase_Records* sorted_ll = ll->sort_records(option, order);
+			ll->display_order_table(sorted_ll);
+			ll->delete_clone_list(sorted_ll);
+		};
+		void search_purchase_records(int id) {};
 		
 		void generate_summary_report(string month, int year) {};
 		void generate_detailed_report(int id) {};

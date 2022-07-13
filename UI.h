@@ -153,7 +153,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
 
         clear_screen();
         if (selection == 1) {
-            pr->obtain_records();
+            login_user->obtain_purchase_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl << endl;
         }
@@ -163,7 +163,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
-            pr->display_order_table();
+            login_user->display_purchase_records();
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
@@ -227,7 +227,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
                 }
             }
 
-            pr->sort_records(criteria, option);
+            login_user->sort_purchase_records(criteria, option);
             cout << "\n[*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
@@ -282,7 +282,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 
         clear_screen();
         if (selection == 1) {
-            pr->obtain_records();
+            login_user->obtain_purchase_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl;
         }
@@ -292,7 +292,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
-            pr->display_order_table();
+            login_user->display_purchase_records();
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
@@ -355,7 +355,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
                 }
             }
 
-            pr->sort_records(criteria, option);
+            login_user->sort_purchase_records(criteria, option);
             cout << "\n [*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
@@ -406,6 +406,7 @@ void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, bool is_
     clear_screen();
     if (login_screen(user)) {
         clear_screen();
+        login_user->set_purchase_records_linked_list(pr);
 
         if (login_user->get_role() == "sale") {
             executives_screen(login_user->get_user_full_name(), pr, user);
