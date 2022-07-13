@@ -10,10 +10,7 @@
 #include <thread>
 #include <conio.h>
 #include <windows.h>
-#include "ObtainRecords.h"
-#include "SortRecords.h"
 #include "Login.h"
-#include "ViewRecords.h"
 #include "PurchaseRecordsLinkedList.h"
 #include "SummaryReportsLinkedList.h"
 
