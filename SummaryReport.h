@@ -83,7 +83,7 @@ public:
 		double n = 1;
 		int colWidth = 15;
 
-		cout << "\n\n\t\t\t\t\t\t" << month_name[month - 1] << " " << year << " Summary Report for LiveOrder Sdn Bhd" << endl << endl;
+		cout << "\n\t\t\t\t\t\t" << month_name[month - 1] << " " << year << " Summary Report for LiveOrder Sdn Bhd" << endl << endl;
 		//table header 
 		//set column width 
 		cout << setfill('-') << setw(9 * colWidth) << "*" << endl;

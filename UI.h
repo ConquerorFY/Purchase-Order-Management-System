@@ -360,6 +360,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         }
         else if (selection == 6) {
             int month, year;
+
             cout << "Please enter month of summary report (1-12): ";
             cin >> month;
             cout << "Please enter year of summary report (0000-9999): ";
@@ -370,7 +371,19 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         }
         else if (selection == 7) {
             // view order reports
-            login_user->view_summary_reports();
+            int option;
+
+            cout << "Please select whether to view summary order reports / detailed order reports (summary order reports (1) / detailed order reports (2)): ";
+            cin >> option;
+
+            clear_screen();
+            if (option == 1) {
+                // view summary order reports
+                login_user->view_summary_reports();
+            }
+            else if (option == 2) {
+                // view detailed order reports
+            }
         }
         else if (selection == 8) {
             // sort order reports

@@ -39,6 +39,7 @@ class Summary_Reports_Linked_List {
 				// head of list
 				new_report->prev = NULL;
 				new_report->next = current->next;
+				current->next->prev = new_report;
 				head = new_report;
 				current->next = NULL;
 				delete current;
@@ -46,13 +47,16 @@ class Summary_Reports_Linked_List {
 			else if (current->next == NULL) {
 				// tail of list
 				new_report->prev = current->prev;
+				current->prev->next = new_report;
 				new_report->next = NULL;
 				current->prev = NULL;
 				delete current;
 			}
 			else {
 				new_report->prev = current->prev;
+				current->prev->next = new_report;
 				new_report->next = current->next;
+				current->next->prev = new_report;
 				current->prev = NULL;
 				current->next = NULL;
 				delete current;
@@ -82,6 +86,7 @@ class Summary_Reports_Linked_List {
 			else {
 				if (check_duplicate_summary_report(month, year)) {
 					overwrite_existing_summary_report(sr);
+					size--;
 				}
 				else {
 					Summary_Report* current = head;
@@ -96,12 +101,42 @@ class Summary_Reports_Linked_List {
 		};
 		void sort_summary_report_list(int order) {};
 		void view_summary_report_list() {
-			// temporary for debug purpose
-			//Summary_Report* current = head;
-			//while (current != NULL) {
-			//	cout << "Month: " << current->get_month() << "; Year: " << current->get_year() << endl;
-			//	current = current->next;
-			//}
+			char option = 'x';
+			Summary_Report* current = head;
+
+			while (option != 'e') {
+				cout << "Current Report: " << endl;
+				cout << "**************************" << endl;
+
+				current->display_summary_report();
+
+				cout << endl;
+				cout << "Please select what to do next (Next (n) / Previoud (p) / Exit (e)): ";
+				cin >> option;
+
+				if (option == 'n') {
+					if (current->next != NULL) {
+						current = current->next;
+					}
+					else {
+						cout << "\n\nThis is the last summary report in the list!" << endl << endl;
+					}
+				}
+				else if (option == 'p') {
+					if (current->prev != NULL) {
+						current = current->prev;
+					}
+					else {
+						cout << "\n\nThis is the first summary report in the list!" << endl << endl;
+					}
+				}
+				else if (option != 'e') {
+					cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+					cin.clear();
+					cin.ignore(10000, '\n');
+				}
+			}
+			
 		};
 };
 
