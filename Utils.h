@@ -47,6 +47,30 @@ bool compare_equal_year(string date, int year) {
 	return false;
 }
 
+int compare_month_year(int month1, int year1, int month2, int year2) {
+	// Returns 1 if MM1-YY1 > MM2-YY2
+	//		  -1 if MM1-YY1 < MM2-YY2
+	//		   0 if MM1-YY1 == MM2-YY2
+
+	if (year1 > year2) {
+		return 1;
+	}
+	else if (year1 < year2) {
+		return -1;
+	}
+	else {
+		if (month1 > month2) {
+			return 1;
+		}
+		else if (month1 < month2) {
+			return -1;
+		}
+		else {
+			return 0;
+		}
+	}
+}
+
 int compare_date(string date1, string date2) {
 	// Date is in YYYY-MM-DD Format
 	// Returns 1 if date1 > date2; 

@@ -22,7 +22,7 @@ Login* l;
 User* login_user;
 
 // Function Definitions
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, bool is_first);
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary);
 
 // Clear Console Screen
 void clear_screen() {
@@ -53,7 +53,7 @@ void keyevent_listener()
 }
 
 // Welcome Screen
-void welcome_screen(bool &is_first) {
+void welcome_screen() {
 	time_t t = time(0);	// get time now
 	tm* now = localtime(&t);
 
@@ -73,46 +73,23 @@ void welcome_screen(bool &is_first) {
 		int min = now->tm_min;
 		int sec = now->tm_sec;
 
-        if (is_first) {
-            cout << "Time: " << hour << ":" << min << ":" << sec;
+        cout << "Time: " << hour << ":" << min << ":" << sec;
 
-            std::chrono::seconds dura(1);
-            std::this_thread::sleep_for(dura);
+        std::chrono::seconds dura(1);
+        std::this_thread::sleep_for(dura);
 
-            printf("\33[2K\r");
+        printf("\33[2K\r");
 
-            if (key_clicked) {
-                stop = true;
-                time_t t = time(0);	// get time now
-                tm* now = localtime(&t);
-                int hour = now->tm_hour;
-                int min = now->tm_min;
-                int sec = now->tm_sec;
+        if (key_clicked) {
+            stop = true;
+            time_t t = time(0);	// get time now
+            tm* now = localtime(&t);
+            int hour = now->tm_hour;
+            int min = now->tm_min;
+            int sec = now->tm_sec;
 
-                cout << "Time: " << hour << ":" << min << ":" << sec << endl;
-                break;
-            }
-        }
-
-        else if (!is_first) {
-            cout << "Time: " << hour << ":" << min << ":" << sec;
-
-            std::chrono::seconds dura(1);
-            std::this_thread::sleep_for(dura);
-
-            printf("\33[2K\r");
-
-            if (key_clicked) {
-                stop = true;
-                time_t t = time(0);	// get time now
-                tm* now = localtime(&t);
-                int hour = now->tm_hour;
-                int min = now->tm_min;
-                int sec = now->tm_sec;
-
-                cout << "Time: " << hour << ":" << min << ":" << sec << endl;
-                break;
-            }
+            cout << "Time: " << hour << ":" << min << ":" << sec << endl;
+            break;
         }
 	}
 }
@@ -239,7 +216,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
             l->logoutAccount(login_user);
             selection = 8;
             cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, summary, false);
+            build_UI(pr, user, summary);
         }
         else if (selection == 8) {
             // exit
@@ -387,13 +364,34 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         }
         else if (selection == 8) {
             // sort order reports
+            int option;
+
+            cout << "Please select whether to sort summary order reports / detailed order reports (summary order reports (1) / detailed order reports (2)): ";
+            cin >> option;
+
+            if (option == 1) {
+                // sort summary order reports
+                int order;
+
+                cout << "Ascending (Latest - Oldest): 1" << endl;
+                cout << "Descending (Oldest - Latest): -1" << endl;
+                cout << "Sorting Order: ";
+                cin >> order;
+
+                login_user->sort_summary_reports(order);
+
+                cout << "\n [*] The Summary Order Reports List has been sorted successfully!!" << endl << endl;
+            }
+            else if (option == 2) {
+                // sort detailed order reports
+            }
         }
         else if (selection == 9) {
             // logout
             l->logoutAccount(login_user);
             selection = 11;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, summary, false);
+            build_UI(pr, user, summary);
         }
         else if (selection == 10) {
             // exit
@@ -408,14 +406,14 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 }
 
 // Function to build UI
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, bool is_first) {
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary) {
     user->obtain_users_list();
 
     stop = false;
     key_clicked = false;
 
     std::thread thread_obj(keyevent_listener);
-    welcome_screen(is_first);
+    welcome_screen();
     thread_obj.join();
 
     clear_screen();
@@ -432,7 +430,7 @@ void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_
         }
     }
     else {
-        build_UI(pr, user, summary, false);
+        build_UI(pr, user, summary);
     }
 }
 

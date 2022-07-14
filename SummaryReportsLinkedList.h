@@ -3,6 +3,7 @@
 #pragma once
 #include "SummaryReport.h"
 #include "PurchaseRecordsLinkedList.h"
+#include "Utils.h"
 #ifndef SUMMARYREPORTSLINKEDLIST
 #define SUMMARYREPORTSLINKEDLIST
 
@@ -13,9 +14,90 @@ class Summary_Reports_Linked_List {
 		Summary_Report* head = NULL;
 		Purchase_Records_Linked_List* ll;
 
-		Summary_Report* merge(Summary_Report* left, Summary_Report* right, int order) {};
-		Summary_Report* mid_point() {};
-		Summary_Report* merge_sort(int order) {};
+		// Sorting Function for LinkedList (Using Merge Sort)
+		// ***********************************************************************************
+		Summary_Report* merge(Summary_Report* left, Summary_Report* right, int order) {
+			if (left == NULL) {
+				return right;
+			}
+			if (right == NULL) {
+				return left;
+			}
+
+			Summary_Report* counter = NULL;
+
+			// Sort By Month & Year
+			// Ascending Order (1): Latest -> Oldest
+			// Descending Order (-1): Oldest -> Latest
+			if (compare_month_year(left->get_month(), left->get_year(), right->get_month(), right->get_year()) < 0) {
+				if (order == 1) {
+					counter = left;
+					counter->next = merge(left->next, right, order);
+					counter->next->prev = counter;
+				}
+				else if (order == -1) {
+					counter = right;
+					counter->next = merge(left, right->next, order);
+					counter->next->prev = counter;
+				}
+			}
+			else {
+				if (order == 1) {
+					counter = right;
+					counter->next = merge(left, right->next, order);
+					counter->next->prev = counter;
+				}
+				else if (order == -1) {
+					counter = left;
+					counter->next = merge(left->next, right, order);
+					counter->next->prev = counter;
+				}
+			}
+			
+			return counter;
+		};
+
+		Summary_Report* mid_point(Summary_Report* node) {
+			if (node == NULL || node->next == NULL) {
+				return node;
+			}
+
+			Summary_Report* fast = node;
+			Summary_Report* slow = node;
+
+			while (fast != NULL && fast->next != NULL) {
+				fast = fast->next;
+
+				if (fast->next == NULL) {
+					break;
+				}
+
+				fast = fast->next;
+				slow = slow->next;
+			}
+
+			return slow;
+		};
+
+		Summary_Report* merge_sort(Summary_Report* node, int order) {
+			if (node == NULL || node->next == NULL) {
+				return node;
+			}
+
+			Summary_Report* mid = mid_point(node);
+			Summary_Report* left = node;
+			Summary_Report* right = mid->next;
+
+			mid->next = NULL;
+
+			left = merge_sort(left, order);
+			right = merge_sort(right, order);
+
+			Summary_Report* merged = merge(left, right, order);
+			return merged;
+		};
+		// ***********************************************************************************
+
 		bool check_duplicate_summary_report(int month, int year) {
 			Summary_Report* current = head;
 			while (current != NULL) {
@@ -26,6 +108,7 @@ class Summary_Reports_Linked_List {
 			}
 			return false;
 		};
+
 		void overwrite_existing_summary_report(Summary_Report* new_report) {
 			Summary_Report* current = head;
 			while (current != NULL) {
@@ -66,6 +149,7 @@ class Summary_Reports_Linked_List {
 		void set_purchase_records_linked_list(Purchase_Records_Linked_List* ll) {
 			this->ll = ll;
 		}
+
 		void update_summary_report_list(int month, int year) {
 			Summary_Report* sr = new Summary_Report;
 			size++;
@@ -99,7 +183,12 @@ class Summary_Reports_Linked_List {
 				}
 			}
 		};
-		void sort_summary_report_list(int order) {};
+
+		void sort_summary_report_list(int order) {
+			head = merge_sort(head, order);
+			head->prev = NULL;
+		};
+
 		void view_summary_report_list() {
 			char option = 'x';
 			Summary_Report* current = head;

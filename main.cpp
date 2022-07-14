@@ -20,6 +20,6 @@ User_Linked_List* user = new User_Linked_List;
 Summary_Reports_Linked_List* summary = new Summary_Reports_Linked_List;
 
 int main() {
-	build_UI(pr, user, summary, true);
+	build_UI(pr, user, summary);
 	return 0;
 }

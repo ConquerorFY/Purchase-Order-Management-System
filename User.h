@@ -54,7 +54,9 @@ class User {
 			sl->update_summary_report_list(month, year);
 		};
 		void generate_detailed_report(int id) {};
-		void sort_summary_reports(int order) {};
+		void sort_summary_reports(int order) {
+			sl->sort_summary_report_list(order);
+		};
 		void sort_detailed_reports(int order) {};
 		void view_summary_reports() {
 			sl->view_summary_report_list();
