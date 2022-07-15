@@ -32,7 +32,7 @@ class Purchase_Records_Linked_List {
 		void display_order_table();
 		void display_order_table(Purchase_Records* new_head);
 		Purchase_Records* sort_records(int option, int order);
-		void search_records(int id);
+		Purchase_Records* search_records(int criteria, int parameter);
 		void delete_clone_list(Purchase_Records* clone_head);
 };
 
@@ -435,6 +435,81 @@ Purchase_Records* Purchase_Records_Linked_List::sort_records(int option, int ord
 	Purchase_Records* clone_head = clone_list();
 	Purchase_Records* sorted_head = merge_sort(clone_head, option, order);
 	return sorted_head;
+}
+
+// Search Records
+Purchase_Records* Purchase_Records_Linked_List::search_records(int criteria, int parameter) {
+	Purchase_Records* search_head = NULL;
+	Purchase_Records* search_cursor = NULL;
+	Purchase_Records* current = head;
+
+	// Search by ID
+	if (criteria == 0) {
+		while (current != NULL) {
+			int order_id = current->get_order_id();
+			if (order_id == parameter) {
+				search_head = new Purchase_Records;
+				search_head->set_order_id(current->get_order_id());
+				search_head->set_client_id(current->get_client_id());
+				search_head->set_client_name(current->get_client_name());
+				search_head->set_item_ids(current->get_item_ids());
+				search_head->set_price(current->get_price());
+				search_head->set_date(current->get_date());
+				search_head->set_time(current->get_time());
+				search_head->set_type(current->get_type());
+				search_head->set_status(current->get_status());
+				search_head->next = NULL;
+
+				search_cursor = search_head;
+				return search_head;
+			}
+			current = current->next;
+		}
+	}
+	// Search by Client ID
+	else if (criteria == 1) {
+		while (current != NULL) {
+			int client_id = current->get_client_id();
+			if (client_id == parameter) {
+				if (search_head == NULL) {
+					// First item discoverd
+					search_head = new Purchase_Records;
+					search_head->set_order_id(current->get_order_id());
+					search_head->set_client_id(current->get_client_id());
+					search_head->set_client_name(current->get_client_name());
+					search_head->set_item_ids(current->get_item_ids());
+					search_head->set_price(current->get_price());
+					search_head->set_date(current->get_date());
+					search_head->set_time(current->get_time());
+					search_head->set_type(current->get_type());
+					search_head->set_status(current->get_status());
+					search_head->next = NULL;
+
+					search_cursor = search_head;
+				}
+				else {
+					Purchase_Records* search_item = new Purchase_Records;
+					search_item->set_order_id(current->get_order_id());
+					search_item->set_client_id(current->get_client_id());
+					search_item->set_client_name(current->get_client_name());
+					search_item->set_item_ids(current->get_item_ids());
+					search_item->set_price(current->get_price());
+					search_item->set_date(current->get_date());
+					search_item->set_time(current->get_time());
+					search_item->set_type(current->get_type());
+					search_item->set_status(current->get_status());
+					search_item->next = NULL;
+
+					search_cursor->next = search_item;
+					search_cursor = search_item;
+				}
+			}
+
+			current = current->next;
+		}
+	}
+
+	return search_head;
 }
 
 // Clone the original linked list before sorting to avoid mutation directly

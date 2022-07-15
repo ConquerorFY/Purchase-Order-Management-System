@@ -207,6 +207,53 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
         }
         else if (selection == 5) {
             // search
+            int criteria;
+            int option;
+
+            while (true) {
+                cout << "Please Select What Criteria to Use For Searching: " << endl;
+                cout << "********************************************************************************************" << endl;
+                cout << "0: Order ID" << endl;
+                cout << "1: Client ID" << endl;
+                cout << "********************************************************************************************" << endl << endl;
+
+                cout << "Criteria Selection: ";
+                cin >> criteria;
+
+                if (!cin.fail()) {
+                    if (criteria >= 0 && criteria <= 1) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+
+                }
+            }
+
+            while (true) {
+                cout << "Please Enter Parameter: ";
+                cin >> option;
+
+                if (cin.fail()) {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');                    
+                }
+                else {
+                    break;
+                }
+            }
+
+            login_user->search_purchase_records(criteria, option);
+            cout << endl << endl;
         }
         else if (selection == 6) {
             // generate detailed report (handled or not handled)
@@ -334,6 +381,53 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         }
         else if (selection == 5) {
             // search
+            int criteria;
+            int option;
+
+            while (true) {
+                cout << "Please Select What Criteria to Use For Searching: " << endl;
+                cout << "********************************************************************************************" << endl;
+                cout << "0: Order ID" << endl;
+                cout << "1: Client ID" << endl;
+                cout << "********************************************************************************************" << endl << endl;
+
+                cout << "Criteria Selection: ";
+                cin >> criteria;
+
+                if (!cin.fail()) {
+                    if (criteria >= 0 && criteria <= 1) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+
+                }
+            }
+
+            while (true) {
+                cout << "Please Enter Parameter: ";
+                cin >> option;
+
+                if (cin.fail()) {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+                else {
+                    break;
+                }
+            }
+
+            login_user->search_purchase_records(criteria, option);
+            cout << endl << endl;
         }
         else if (selection == 6) {
             int month, year;

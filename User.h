@@ -48,7 +48,11 @@ class User {
 			ll->display_order_table(sorted_ll);
 			ll->delete_clone_list(sorted_ll);
 		};
-		void search_purchase_records(int id) {};
+		void search_purchase_records(int criteria, int parameter) {
+			Purchase_Records* search_head = ll->search_records(criteria, parameter);
+			ll->display_order_table(search_head);
+			ll->delete_clone_list(search_head);
+		};
 		
 		void generate_summary_report(int month, int year) {
 			sl->update_summary_report_list(month, year);
