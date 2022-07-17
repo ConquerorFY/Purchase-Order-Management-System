@@ -19,7 +19,10 @@ User_Linked_List* user = new User_Linked_List;
 // Store summary reports as Linked-List
 Summary_Reports_Linked_List* summary = new Summary_Reports_Linked_List;
 
+// Store detailed reports as Linked-List
+Detailed_Reports_Linked_List* detailed = new Detailed_Reports_Linked_List;
+
 int main() {
-	build_UI(pr, user, summary);
+	build_UI(pr, user, summary,detailed);
 	return 0;
 }

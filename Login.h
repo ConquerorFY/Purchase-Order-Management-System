@@ -54,7 +54,7 @@ bool Login::loginAccount(User* &user) {
 	}
 
 	user = this->user->validate_login_details(username, pass, loginStatus);
-
+	cout << loginStatus;
 	if (loginStatus) {
 		cout << "Login Success!!" << endl; 
 		return true;

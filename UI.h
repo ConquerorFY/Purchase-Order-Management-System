@@ -13,6 +13,7 @@
 #include "Login.h"
 #include "PurchaseRecordsLinkedList.h"
 #include "SummaryReportsLinkedList.h"
+#include "DetailedReportsLinkedList.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ Login* l;
 User* login_user;
 
 // Function Definitions
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary);
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed);
 
 // Clear Console Screen
 void clear_screen() {
@@ -105,7 +106,7 @@ bool login_screen(User_Linked_List* user) {
 }
 
 // Sale Executives Screen
-void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary) {
+void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed) {
     int selection = 0;
 
     while (selection != 8) {
@@ -257,13 +258,31 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
         }
         else if (selection == 6) {
             // generate detailed report (handled or not handled)
+            int order_id;
+            while (true) {
+                cout << "Please enter order id ";
+                cin >> order_id;
+                if (cin.fail()) {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+                else {
+                    break;
+                }
+
+            }
+           
+
+            login_user->generate_detailed_report(order_id);
+            cout << "\n [*] Detailed Report has been generated successfully!!" << endl;
         }
         else if (selection == 7) {
             // logout
             l->logoutAccount(login_user);
             selection = 8;
             cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, summary);
+            build_UI(pr, user, summary,detailed);
         }
         else if (selection == 8) {
             // exit
@@ -278,7 +297,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
 }
 
 // Admin Screen
-void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary) {
+void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed) {
     int selection = 0;
 
     while (selection != 10) {
@@ -454,6 +473,8 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             }
             else if (option == 2) {
                 // view detailed order reports
+                login_user->view_detailed_reports();
+
             }
         }
         else if (selection == 8) {
@@ -478,6 +499,17 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             }
             else if (option == 2) {
                 // sort detailed order reports
+                // sort summary order reports
+                int order;
+
+                cout << "Ascending (Latest - Oldest): 1" << endl;
+                cout << "Descending (Oldest - Latest): -1" << endl;
+                cout << "Sorting Order: ";
+                cin >> order;
+
+                login_user->sort_detailed_reports(order);
+
+                cout << "\n [*] The Detailed Order Reports List has been sorted successfully!!" << endl << endl;
             }
         }
         else if (selection == 9) {
@@ -485,7 +517,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             l->logoutAccount(login_user);
             selection = 11;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, summary);
+            build_UI(pr, user, summary,detailed);
         }
         else if (selection == 10) {
             // exit
@@ -500,8 +532,9 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 }
 
 // Function to build UI
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary) {
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed) {
     user->obtain_users_list();
+   
 
     stop = false;
     key_clicked = false;
@@ -515,16 +548,17 @@ void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_
         clear_screen();
         login_user->set_purchase_records_linked_list(pr);
         login_user->set_summary_reports_linked_list(summary);
+        login_user->set_detailed_reports_linked_list(detailed);
 
         if (login_user->get_role() == "sale") {
-            executives_screen(login_user->get_user_full_name(), pr, user, summary);
+            executives_screen(login_user->get_user_full_name(), pr, user, summary,detailed);
         }
         else if (login_user->get_role() == "admin") {
-            admin_screen(login_user->get_user_full_name(), pr, user, summary);
+            admin_screen(login_user->get_user_full_name(), pr, user, summary, detailed);
         }
     }
     else {
-        build_UI(pr, user, summary);
+        build_UI(pr, user, summary,detailed);
     }
 }
 

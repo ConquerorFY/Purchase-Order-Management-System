@@ -8,12 +8,14 @@
 #include <string>
 #include "PurchaseRecordsLinkedList.h"
 #include "SummaryReportsLinkedList.h"
+#include "DetailedReportsLinkedList.h"
 using namespace std;
 
 class User {
 	private:
 		Purchase_Records_Linked_List* ll;
 		Summary_Reports_Linked_List* sl;
+		Detailed_Reports_Linked_List* dl;
 		string full_name;
 		string username;
 		string password;
@@ -30,6 +32,10 @@ class User {
 		void set_summary_reports_linked_list(Summary_Reports_Linked_List* sl) { 
 			this->sl = sl; 
 			this->sl->set_purchase_records_linked_list(ll);
+		}
+		void set_detailed_reports_linked_list(Detailed_Reports_Linked_List* dl) {
+			this->dl = dl;
+			this->dl->set_purchase_records_linked_list(ll);
 		}
 		void set_user_full_name(string name) { full_name = name; }
 		void set_username(string usrname) { username = usrname; }
@@ -57,15 +63,22 @@ class User {
 		void generate_summary_report(int month, int year) {
 			sl->update_summary_report_list(month, year);
 		};
-		void generate_detailed_report(int id) {};
+		void generate_detailed_report(int id) {
+			dl->update_detailed_report_list(id);
+		
+		};
 		void sort_summary_reports(int order) {
 			sl->sort_summary_report_list(order);
 		};
-		void sort_detailed_reports(int order) {};
+		void sort_detailed_reports(int order) {
+			dl->sort_detailed_reports(order);
+		};
 		void view_summary_reports() {
 			sl->view_summary_report_list();
 		};
-		void view_detailed_reports() {};
+		void view_detailed_reports() {
+			dl->view_detailed_report_list();
+		};
 };
 
 
