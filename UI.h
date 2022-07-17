@@ -106,7 +106,7 @@ bool login_screen(User_Linked_List* user) {
 }
 
 // Sale Executives Screen
-void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed) {
+void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed) {
     int selection = 0;
 
     while (selection != 8) {
@@ -135,6 +135,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
         }
         else if (selection == 2) {
             // modify
+            login_user->update_purchase_record();
         }
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
@@ -280,7 +281,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
             l->logoutAccount(login_user);
             selection = 8;
             cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, summary,detailed);
+            build_UI(pr, user, summary, detailed);
         }
         else if (selection == 8) {
             // exit
@@ -326,6 +327,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         }
         else if (selection == 2) {
             // modify
+            login_user->update_purchase_record();
         }
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
@@ -511,9 +513,9 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         else if (selection == 9) {
             // logout
             l->logoutAccount(login_user);
-            selection = 11;
+            selection = 10;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, summary,detailed);
+            build_UI(pr, user, summary, detailed);
         }
         else if (selection == 10) {
             // exit

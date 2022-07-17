@@ -10,6 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include "PurchaseRecords.h"
+#include "OrderUpdateQueue.h"
 #include "Utils.h"
 using namespace std;
 
@@ -83,9 +84,15 @@ void Purchase_Records_Linked_List::obtain_records() {
 			}
 			line_no++;
 		}
-		size = line_no;
+		size = line_no - 2;
 		newfile.close();
 	}
+}
+
+void Purchase_Records_Linked_List::update_records() {
+	Order_Update_Queue q(get_size(), head);
+	q.enqueue();
+	q.dequeue();
 }
 
 // View Order Records (Iterate Orders and Display in Table Form in CLI) (For Original Lists)

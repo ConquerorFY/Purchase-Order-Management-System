@@ -45,7 +45,9 @@ class User {
 		void obtain_purchase_records() {
 			ll->obtain_records();
 		};
-		void update_purchase_record() {};		// TBD
+		void update_purchase_record() {
+			ll->update_records();
+		};
 		void display_purchase_records() {
 			ll->display_order_table();
 		};
