@@ -63,7 +63,7 @@ class Detailed_Reports_Linked_List {
 			Detailed_Report* current = head;
 			while (current != NULL) {
 				if (current->get_order_id() == order_id) {
-					cout << "Report for order id: "<<order_id <<" exist!" << endl;
+					// cout << "Report for order id: "<<order_id <<" exist!" << endl;
 					return true;
 				}
 				current = current->next;

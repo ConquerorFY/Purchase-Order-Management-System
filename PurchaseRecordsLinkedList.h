@@ -17,6 +17,7 @@ using namespace std;
 class Purchase_Records_Linked_List {
 	private:
 		int size;
+		// Purchase_Records* head = NULL;
 		Purchase_Records* head = new Purchase_Records;
 
 		Purchase_Records* merge(Purchase_Records* left, Purchase_Records* right, int criteria, int order);
