@@ -14,7 +14,7 @@ using namespace std;
 class User_Linked_List {
 	private:
 		int size;
-		User* head = new User;	// stores a memory location addres assigned by new keyword for the User Object, can be used in operations
+		User* head = new User;	// stores a memory location address assigned by new keyword for the User Object, can be used in operations
 		// User* head;			// stores NULL, cannot be used in operations which will result in errors
 	public:
 		void obtain_users_list();
@@ -69,14 +69,10 @@ User* User_Linked_List::validate_login_details(string username, string password,
 	while (current != nullptr) {
 		if (username == current->get_username() && password == current->get_password()) {
 			login_status = true; // set to true 
-		
 			return current;
 		}
 		else {
-			
-			
 			login_status = false; // set to false 
-			
 		}
 		current = current->next;
 	}

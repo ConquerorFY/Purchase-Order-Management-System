@@ -23,7 +23,7 @@ Login* l;
 User* login_user;
 
 // Function Definitions
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed);
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed);
 
 // Clear Console Screen
 void clear_screen() {
@@ -260,7 +260,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
             // generate detailed report (handled or not handled)
             int order_id;
             while (true) {
-                cout << "Please enter order id ";
+                cout << "Please Enter Order ID: ";
                 cin >> order_id;
                 if (cin.fail()) {
                     cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
@@ -272,8 +272,6 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
                 }
 
             }
-           
-
             login_user->generate_detailed_report(order_id);
             cout << "\n [*] Detailed Report has been generated successfully!!" << endl;
         }
@@ -474,7 +472,6 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             else if (option == 2) {
                 // view detailed order reports
                 login_user->view_detailed_reports();
-
             }
         }
         else if (selection == 8) {
@@ -499,7 +496,6 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             }
             else if (option == 2) {
                 // sort detailed order reports
-                // sort summary order reports
                 int order;
 
                 cout << "Ascending (Latest - Oldest): 1" << endl;
@@ -532,7 +528,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 }
 
 // Function to build UI
-void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed) {
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed) {
     user->obtain_users_list();
    
 
@@ -551,14 +547,14 @@ void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_
         login_user->set_detailed_reports_linked_list(detailed);
 
         if (login_user->get_role() == "sale") {
-            executives_screen(login_user->get_user_full_name(), pr, user, summary,detailed);
+            executives_screen(login_user->get_user_full_name(), pr, user, summary, detailed);
         }
         else if (login_user->get_role() == "admin") {
             admin_screen(login_user->get_user_full_name(), pr, user, summary, detailed);
         }
     }
     else {
-        build_UI(pr, user, summary,detailed);
+        build_UI(pr, user, summary, detailed);
     }
 }
 

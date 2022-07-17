@@ -14,8 +14,8 @@ class Detailed_Reports_Linked_List {
 	private:
 		int size = 0;
 		int id_generator = 0;
-		//Detailed_Report* head= NULL;
 		Detailed_Report* head;
+		Purchase_Records_Linked_List* ll;
 
 		Detailed_Report* merge(Detailed_Report* left, Detailed_Report* right, int order) {
 			if (left == NULL) {
@@ -27,11 +27,11 @@ class Detailed_Reports_Linked_List {
 
 			Detailed_Report* counter = NULL;
 
-			// Sort By order ID
-			// Ascending Order (1): Latest -> Oldest
-			// Descending Order (-1): Oldest -> Latest
+			// Sort By Order ID
+			// Ascending Order (1): Small -> Big
+			// Descending Order (-1): Big -> Small
 		 
-			if ((left->get_order_id()) > (right->get_order_id())) {
+			if ((left->get_order_id()) < (right->get_order_id())) {
 				if (order == 1) {
 					counter = left;
 					counter->next = merge(left->next, right, order);
@@ -59,12 +59,11 @@ class Detailed_Reports_Linked_List {
 			return counter;
 		
 		};
-		Purchase_Records_Linked_List* ll;
 		bool check_duplicate_detailed_report(int order_id) {
 			Detailed_Report* current = head;
 			while (current != NULL) {
 				if (current->get_order_id() == order_id) {
-					cout << "report for order id: "<<order_id <<" exist!" << endl;
+					cout << "Report for order id: "<<order_id <<" exist!" << endl;
 					return true;
 				}
 				current = current->next;
@@ -145,21 +144,23 @@ class Detailed_Reports_Linked_List {
 			Detailed_Report* merged = merge(left, right, order);
 			return merged;
 		};
+
 	public:
-		
 		void set_purchase_records_linked_list(Purchase_Records_Linked_List* ll) {
 			this->ll = ll;
 		}
+
 		void update_detailed_report_list(int order_id) {
 			Detailed_Report* dr = new Detailed_Report;
 			size++;
 			id_generator++;
+
 			dr->set_report_id(id_generator);
 			dr->set_order_id(order_id);
 			dr->get_records(ll);
 	
 			if (head == nullptr) {
-				cout << "Head is null" << endl;
+				// cout << "Head is null" << endl;
 				head = dr;
 				dr->next = NULL;
 				dr->prev = NULL;
@@ -179,18 +180,13 @@ class Detailed_Reports_Linked_List {
 					dr->next = NULL;
 				}
 			}
-
-		
-
-
-
-
 		};
-		void generate_detailed_report(int order_id) {};
+
 		void sort_detailed_reports(int order) {
 			head = merge_sort(head, order);
 			head->prev = NULL;
 		};
+
 		void view_detailed_report_list() {
 			char option = 'x';
 			Detailed_Report* current = head;
@@ -202,7 +198,7 @@ class Detailed_Reports_Linked_List {
 				current->display_detailed_report();
 
 				cout << endl;
-				cout << "Please select what to do next (Next (n) / Previoud (p) / Exit (e)): ";
+				cout << "Please select what to do next (Next (n) / Previous (p) / Exit (e)): ";
 				cin >> option;
 
 				if (option == 'n') {
@@ -227,9 +223,6 @@ class Detailed_Reports_Linked_List {
 					cin.ignore(10000, '\n');
 				}
 			}
-		
-		
-		
 		};
 		
 };

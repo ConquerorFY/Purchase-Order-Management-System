@@ -45,7 +45,7 @@ class User {
 		void obtain_purchase_records() {
 			ll->obtain_records();
 		};
-		void update_purchase_record() {};
+		void update_purchase_record() {};		// TBD
 		void display_purchase_records() {
 			ll->display_order_table();
 		};
@@ -65,7 +65,6 @@ class User {
 		};
 		void generate_detailed_report(int id) {
 			dl->update_detailed_report_list(id);
-		
 		};
 		void sort_summary_reports(int order) {
 			sl->sort_summary_report_list(order);
@@ -80,7 +79,4 @@ class User {
 			dl->view_detailed_report_list();
 		};
 };
-
-
-
 #endif

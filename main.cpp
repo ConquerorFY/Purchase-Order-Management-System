@@ -23,6 +23,6 @@ Summary_Reports_Linked_List* summary = new Summary_Reports_Linked_List;
 Detailed_Reports_Linked_List* detailed = new Detailed_Reports_Linked_List;
 
 int main() {
-	build_UI(pr, user, summary,detailed);
+	build_UI(pr, user, summary, detailed);
 	return 0;
 }

@@ -12,7 +12,7 @@ class Detailed_Report {
 private:
 	int report_id;
 	int order_id;
-	int i=0;
+	int i = 0;
 	Purchase_Records** records;
 public:
 	Detailed_Report* next;
@@ -30,9 +30,8 @@ public:
 		Purchase_Records* current = pr->get_head();
 	
 		while (current != NULL) {
-		
 			if (order_id == current->get_order_id()) {
-				cout << "order ib obtained"<<endl;
+				// cout << "order is obtained"<<endl;
 				records[i] = current;
 				i++;
 			}
@@ -48,7 +47,7 @@ public:
 		double n = 1;
 		int colWidth = 15;
 		//table header 
-		cout << "\n\t\t\t\t\t\t"<<" Detailed Report for LiveOrder Sdn Bhd" << endl << endl;
+		cout << "\n\t\t\t\t\t\t" << "Order #" << order_id << " Detailed Report for LiveOrder Sdn Bhd" << endl << endl;
 
 		//set column width 
 		cout << setfill('-') << setw(9 * colWidth) << "*" << endl;
