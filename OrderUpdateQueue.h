@@ -27,7 +27,6 @@ public:
 
 		while (tmp_b != NULL)
 		{
-			cout << "Here" << endl;
 			if (tmp_b->get_type() == "Bulky") {
 				queue[front] = tmp_b;
 				front--;
