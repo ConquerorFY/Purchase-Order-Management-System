@@ -7,9 +7,6 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
-#include <thread>
-#include <conio.h>
-#include <windows.h>
 #include "Login.h"
 #include "PurchaseRecordsLinkedList.h"
 #include "SummaryReportsLinkedList.h"
