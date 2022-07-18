@@ -332,7 +332,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
-            login_user->display_purchase_records();
+            login_user->display_purchase_records(); 
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
@@ -532,8 +532,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 // Function to build UI
 void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed) {
     user->obtain_users_list();
-   
-
+ 
     stop = false;
     key_clicked = false;
 

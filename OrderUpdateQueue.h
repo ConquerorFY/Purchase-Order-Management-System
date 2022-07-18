@@ -13,7 +13,8 @@ using namespace std;
 class Order_Update_Queue {
 private:
 	int size;
-	int index;
+	int front = 0;
+	int rear = 0;
 	Purchase_Records* linked_list;
 	Purchase_Records** queue;
 
@@ -26,9 +27,10 @@ public:
 
 		while (tmp_b != NULL)
 		{
+			cout << "Here" << endl;
 			if (tmp_b->get_type() == "Bulky") {
-				queue[index] = tmp_b;
-				index++;
+				queue[front] = tmp_b;
+				front--;
 			}
 			tmp_b = tmp_b->next;
 		}
@@ -36,8 +38,8 @@ public:
 		while (tmp_s != NULL)
 		{
 			if (tmp_s->get_type() == "Single") {
-				queue[index] = tmp_s;
-				index++;
+				queue[front] = tmp_s;
+				front--;
 			}
 
 			tmp_s = tmp_s->next;
@@ -95,11 +97,12 @@ public:
 
 	void dequeue() {
 		Purchase_Records* current;
-		for (int i = 0; i < size; i++)
+		for (int i = rear; i > front; i--)
 		{
 			current = queue[i];
 			modifyOrder(current);
 			queue[i] = NULL;
+			rear--;
 		}
 	}
 };
@@ -108,6 +111,9 @@ Order_Update_Queue::Order_Update_Queue(int size, Purchase_Records* head) {
 	this->size = size;
 	this->linked_list = head;
 	this->queue = new Purchase_Records * [size];		// create array with fixed size
+
+	this->rear = this->size - 1;
+	this->front = this->rear;
 }
 
 #endif
