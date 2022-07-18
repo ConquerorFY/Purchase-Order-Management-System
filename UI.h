@@ -30,29 +30,6 @@ void clear_screen() {
     system("cls");
 }
 
-// Keyevent Listener (Use as Thread to listen for keystrokes in the Welcome Screen)
-void keyevent_listener()
-{
-    HANDLE hIn;
-    int KeyEvents = 0;
-    INPUT_RECORD InRec;
-    DWORD NumRead;
-
-    hIn = GetStdHandle(STD_INPUT_HANDLE);
-
-    while (!stop)
-    {   
-        ReadConsoleInput(hIn, &InRec, 1, &NumRead);
-
-        if (InRec.EventType == KEY_EVENT) {
-            key_clicked = true;
-            stop = true;
-            //  cout << key_clicked;
-            // break;
-        }
-    }
-}
-
 // Welcome Screen
 void welcome_screen() {
 	time_t t = time(0);	// get time now
@@ -66,33 +43,7 @@ void welcome_screen() {
 	cout << "LiveOrder Sdn Bhd Online Store Purchase Order Client System" << endl;
 	cout << "--------------------------------------------------------------------------------------------" << endl;
 
-	cout << "Date: " << year << "/" << month << "/" << day << endl;
-	while (true) {
-		time_t t = time(0);	// get time now
-		tm* now = localtime(&t);
-		int hour = now->tm_hour;
-		int min = now->tm_min;
-		int sec = now->tm_sec;
-
-        cout << "Time: " << hour << ":" << min << ":" << sec;
-
-        std::chrono::seconds dura(1);
-        std::this_thread::sleep_for(dura);
-
-        printf("\33[2K\r");
-
-        if (key_clicked) {
-            stop = true;
-            time_t t = time(0);	// get time now
-            tm* now = localtime(&t);
-            int hour = now->tm_hour;
-            int min = now->tm_min;
-            int sec = now->tm_sec;
-
-            cout << "Time: " << hour << ":" << min << ":" << sec << endl;
-            break;
-        }
-	}
+	cout << "Date: " << year << "/" << month << "/" << day << endl << endl;
 }
 
 // Login Screen
@@ -536,11 +487,7 @@ void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_
     stop = false;
     key_clicked = false;
 
-    std::thread thread_obj(keyevent_listener);
     welcome_screen();
-    thread_obj.join();
-
-    clear_screen();
     if (login_screen(user)) {
         clear_screen();
         login_user->set_purchase_records_linked_list(pr);
