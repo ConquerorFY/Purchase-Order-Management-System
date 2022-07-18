@@ -37,18 +37,15 @@ void welcome_screen() {
 	int day = now->tm_mday;
 
 	cout << "--------------------------------------------------------------------------------------------" << endl;
-	cout << "LiveOrder Sdn Bhd Online Store Purchase Order Client System" << endl;
+	cout << "               LiveOrder Sdn Bhd Online Store Purchase Order Client System" << endl;
 	cout << "--------------------------------------------------------------------------------------------" << endl;
-
-	cout << "Date: " << year << "/" << month << "/" << day << endl << endl;
 }
 
 // Login Screen
 bool login_screen(User_Linked_List* user) {
     // login screen
-    cout << "--------------------------------------------------------------------------------------------" << endl;
-    cout << "Login Page: " << endl;
-    cout << "--------------------------------------------------------------------------------------------" << endl;
+    //cout << "   Login Page: " << endl;
+    //cout << "   ************************" << endl;
     l = new Login(user);
     return l->loginAccount(login_user);
 }
