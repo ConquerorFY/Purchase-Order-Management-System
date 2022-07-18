@@ -7,13 +7,10 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
-#include <thread>
-#include <conio.h>
-#include <windows.h>
-#include "ObtainRecords.h"
-#include "SortRecords.h"
 #include "Login.h"
-#include "ViewRecords.h"
+#include "PurchaseRecordsLinkedList.h"
+#include "SummaryReportsLinkedList.h"
+#include "DetailedReportsLinkedList.h"
 
 using namespace std;
 
@@ -23,38 +20,15 @@ Login* l;
 User* login_user;
 
 // Function Definitions
-void build_UI(Purchase_Records* pr, User_Linked_List* user, bool is_first);
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed);
 
 // Clear Console Screen
 void clear_screen() {
     system("cls");
 }
 
-// Keyevent Listener (Use as Thread to listen for keystrokes in the Welcome Screen)
-void keyevent_listener()
-{
-    HANDLE hIn;
-    int KeyEvents = 0;
-    INPUT_RECORD InRec;
-    DWORD NumRead;
-
-    hIn = GetStdHandle(STD_INPUT_HANDLE);
-
-    while (!stop)
-    {   
-        ReadConsoleInput(hIn, &InRec, 1, &NumRead);
-
-        if (InRec.EventType == KEY_EVENT) {
-            key_clicked = true;
-            stop = true;
-            //  cout << key_clicked;
-            // break;
-        }
-    }
-}
-
 // Welcome Screen
-void welcome_screen(bool &is_first) {
+void welcome_screen() {
 	time_t t = time(0);	// get time now
 	tm* now = localtime(&t);
 
@@ -66,56 +40,7 @@ void welcome_screen(bool &is_first) {
 	cout << "LiveOrder Sdn Bhd Online Store Purchase Order Client System" << endl;
 	cout << "--------------------------------------------------------------------------------------------" << endl;
 
-	cout << "Date: " << year << "/" << month << "/" << day << endl;
-	while (true) {
-		time_t t = time(0);	// get time now
-		tm* now = localtime(&t);
-		int hour = now->tm_hour;
-		int min = now->tm_min;
-		int sec = now->tm_sec;
-
-        if (is_first) {
-            cout << "Time: " << hour << ":" << min << ":" << sec;
-
-            std::chrono::seconds dura(1);
-            std::this_thread::sleep_for(dura);
-
-            printf("\33[2K\r");
-
-            if (key_clicked) {
-                stop = true;
-                time_t t = time(0);	// get time now
-                tm* now = localtime(&t);
-                int hour = now->tm_hour;
-                int min = now->tm_min;
-                int sec = now->tm_sec;
-
-                cout << "Time: " << hour << ":" << min << ":" << sec << endl;
-                break;
-            }
-        }
-
-        else if (!is_first) {
-            cout << "Time: " << hour << ":" << min << ":" << sec;
-
-            std::chrono::seconds dura(1);
-            std::this_thread::sleep_for(dura);
-
-            printf("\33[2K\r");
-
-            if (key_clicked) {
-                stop = true;
-                time_t t = time(0);	// get time now
-                tm* now = localtime(&t);
-                int hour = now->tm_hour;
-                int min = now->tm_min;
-                int sec = now->tm_sec;
-
-                cout << "Time: " << hour << ":" << min << ":" << sec << endl;
-                break;
-            }
-        }
-	}
+	cout << "Date: " << year << "/" << month << "/" << day << endl << endl;
 }
 
 // Login Screen
@@ -129,7 +54,7 @@ bool login_screen(User_Linked_List* user) {
 }
 
 // Sale Executives Screen
-void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* user) {
+void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed) {
     int selection = 0;
 
     while (selection != 8) {
@@ -152,17 +77,18 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
 
         clear_screen();
         if (selection == 1) {
-            pr = obtain_records(pr);
+            login_user->obtain_purchase_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl << endl;
         }
         else if (selection == 2) {
             // modify
+            login_user->update_purchase_record();
         }
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
-            display_order_table(pr);
+            login_user->display_purchase_records();
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
@@ -204,8 +130,8 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
 
             while (true) {
                 cout << "Please Select What Order to Use for Sorting: " << endl;
-                cout << "1: Ascending Order" << endl;
-                cout << "-1: Descending Order" << endl;
+                cout << "1: Ascending Order (Small -> Big; Latest -> Oldest; Bulky -> Single; Not Processed -> Processed)" << endl;
+                cout << "-1: Descending Order (Big -> Small; Oldest -> Latest; Single -> Bulky; Processed -> Not Processed)" << endl;
                 cout << "Order Selection: ";
                 cin >> option;
 
@@ -226,21 +152,84 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
                 }
             }
 
-            pr = sort_records(pr, criteria, option);
+            login_user->sort_purchase_records(criteria, option);
             cout << "\n[*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
             // search
+            int criteria;
+            int option;
+
+            while (true) {
+                cout << "Please Select What Criteria to Use For Searching: " << endl;
+                cout << "********************************************************************************************" << endl;
+                cout << "0: Order ID" << endl;
+                cout << "1: Client ID" << endl;
+                cout << "********************************************************************************************" << endl << endl;
+
+                cout << "Criteria Selection: ";
+                cin >> criteria;
+
+                if (!cin.fail()) {
+                    if (criteria >= 0 && criteria <= 1) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+
+                }
+            }
+
+            while (true) {
+                cout << "Please Enter Parameter: ";
+                cin >> option;
+
+                if (cin.fail()) {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');                    
+                }
+                else {
+                    break;
+                }
+            }
+
+            login_user->search_purchase_records(criteria, option);
+            cout << endl << endl;
         }
         else if (selection == 6) {
             // generate detailed report (handled or not handled)
+            int order_id;
+            while (true) {
+                cout << "Please Enter Order ID: ";
+                cin >> order_id;
+                if (cin.fail()) {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+                else {
+                    break;
+                }
+
+            }
+            login_user->generate_detailed_report(order_id);
+            cout << "\n [*] Detailed Report has been generated successfully!!" << endl;
         }
         else if (selection == 7) {
             // logout
             l->logoutAccount(login_user);
             selection = 8;
             cin.ignore();       // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, false);
+            build_UI(pr, user, summary, detailed);
         }
         else if (selection == 8) {
             // exit
@@ -255,10 +244,10 @@ void executives_screen(string name, Purchase_Records* &pr, User_Linked_List* use
 }
 
 // Admin Screen
-void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
+void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed) {
     int selection = 0;
 
-    while (selection != 11) {
+    while (selection != 10) {
         cout << "Welcome, " << name << "!" << endl << endl;
         cout << "********************************************************************************************" << endl;
         cout << "What do you want to do? " << endl;
@@ -269,11 +258,10 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
         cout << "4. Sort Purchase Order Records According to Criteria Specified" << endl;
         cout << "5. Search Purchase Order Record Based on Order ID or other parameters" << endl;
         cout << "6. Generate Summary Order Reports" << endl;
-        cout << "7. View Order Reports List" << endl;
-        cout << "8. View Order Report Details" << endl;
-        cout << "9. Sort Order Reports List" << endl;
-        cout << "10. Logout" << endl;
-        cout << "11. Exit" << endl;
+        cout << "7. View Order Reports" << endl;
+        cout << "8. Sort Order Reports" << endl;
+        cout << "9. Logout" << endl;
+        cout << "10. Exit" << endl;
         cout << "********************************************************************************************" << endl << endl;
 
         cout << "Action Selection: ";
@@ -281,17 +269,18 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
 
         clear_screen();
         if (selection == 1) {
-            pr = obtain_records(pr);
+            login_user->obtain_purchase_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl;
         }
         else if (selection == 2) {
             // modify
+            login_user->update_purchase_record();
         }
         else if (selection == 3) {
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
-            display_order_table(pr);
+            login_user->display_purchase_records(); 
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
@@ -332,8 +321,8 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
 
             while (true) {
                 cout << "Please Select What Order to Use for Sorting: " << endl;
-                cout << "1: Ascending Order" << endl;
-                cout << "-1: Descending Order" << endl;
+                cout << "1: Ascending Order (Small -> Big; Latest -> Oldest; Bulky -> Single; Not Processed -> Processed)" << endl;
+                cout << "-1: Descending Order (Big -> Small; Oldest -> Latest; Single -> Bulky; Processed -> Not Processed)" << endl;
                 cout << "Order Selection: ";
                 cin >> option;
 
@@ -354,32 +343,129 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
                 }
             }
 
-            pr = sort_records(pr, criteria, option);
+            login_user->sort_purchase_records(criteria, option);
             cout << "\n [*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
             // search
+            int criteria;
+            int option;
+
+            while (true) {
+                cout << "Please Select What Criteria to Use For Searching: " << endl;
+                cout << "********************************************************************************************" << endl;
+                cout << "0: Order ID" << endl;
+                cout << "1: Client ID" << endl;
+                cout << "********************************************************************************************" << endl << endl;
+
+                cout << "Criteria Selection: ";
+                cin >> criteria;
+
+                if (!cin.fail()) {
+                    if (criteria >= 0 && criteria <= 1) {
+                        break;
+                    }
+                    else {
+                        cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                }
+                else {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+
+                }
+            }
+
+            while (true) {
+                cout << "Please Enter Parameter: ";
+                cin >> option;
+
+                if (cin.fail()) {
+                    cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+                else {
+                    break;
+                }
+            }
+
+            login_user->search_purchase_records(criteria, option);
+            cout << endl << endl;
         }
         else if (selection == 6) {
-            // generate summary report
+            int month, year;
+
+            cout << "Please enter month of summary report (1-12): ";
+            cin >> month;
+            cout << "Please enter year of summary report (0000-9999): ";
+            cin >> year;
+
+            login_user->generate_summary_report(month, year);
+            cout << "\n [*] Summary Report has been generated successfully!!" << endl;
         }
         else if (selection == 7) {
-            // view order report lists
+            // view order reports
+            int option;
+
+            cout << "Please select whether to view summary order reports / detailed order reports (summary order reports (1) / detailed order reports (2)): ";
+            cin >> option;
+
+            clear_screen();
+            if (option == 1) {
+                // view summary order reports
+                login_user->view_summary_reports();
+            }
+            else if (option == 2) {
+                // view detailed order reports
+                login_user->view_detailed_reports();
+            }
         }
         else if (selection == 8) {
-            // view order report details
+            // sort order reports
+            int option;
+
+            cout << "Please select whether to sort summary order reports / detailed order reports (summary order reports (1) / detailed order reports (2)): ";
+            cin >> option;
+
+            if (option == 1) {
+                // sort summary order reports
+                int order;
+
+                cout << "Ascending (Latest - Oldest): 1" << endl;
+                cout << "Descending (Oldest - Latest): -1" << endl;
+                cout << "Sorting Order: ";
+                cin >> order;
+
+                login_user->sort_summary_reports(order);
+
+                cout << "\n [*] The Summary Order Reports List has been sorted successfully!!" << endl << endl;
+            }
+            else if (option == 2) {
+                // sort detailed order reports
+                int order;
+
+                cout << "Ascending (Latest - Oldest): 1" << endl;
+                cout << "Descending (Oldest - Latest): -1" << endl;
+                cout << "Sorting Order: ";
+                cin >> order;
+
+                login_user->sort_detailed_reports(order);
+
+                cout << "\n [*] The Detailed Order Reports List has been sorted successfully!!" << endl << endl;
+            }
         }
         else if (selection == 9) {
-            // sort order report list
-        }
-        else if (selection == 10) {
             // logout
             l->logoutAccount(login_user);
-            selection = 11;
+            selection = 10;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
-            build_UI(pr, user, false);
+            build_UI(pr, user, summary, detailed);
         }
-        else if (selection == 11) {
+        else if (selection == 10) {
             // exit
         }
         else {
@@ -392,29 +478,28 @@ void admin_screen(string name, Purchase_Records*& pr, User_Linked_List* user) {
 }
 
 // Function to build UI
-void build_UI(Purchase_Records* pr, User_Linked_List* user, bool is_first) {
+void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed) {
     user->obtain_users_list();
-
+ 
     stop = false;
     key_clicked = false;
 
-    std::thread thread_obj(keyevent_listener);
-    welcome_screen(is_first);
-    thread_obj.join();
-
-    clear_screen();
+    welcome_screen();
     if (login_screen(user)) {
         clear_screen();
+        login_user->set_purchase_records_linked_list(pr);
+        login_user->set_summary_reports_linked_list(summary);
+        login_user->set_detailed_reports_linked_list(detailed);
 
         if (login_user->get_role() == "sale") {
-            executives_screen(login_user->get_user_full_name(), pr, user);
+            executives_screen(login_user->get_user_full_name(), pr, user, summary, detailed);
         }
         else if (login_user->get_role() == "admin") {
-            admin_screen(login_user->get_user_full_name(), pr, user);
+            admin_screen(login_user->get_user_full_name(), pr, user, summary, detailed);
         }
     }
     else {
-        build_UI(pr, user, false);
+        build_UI(pr, user, summary, detailed);
     }
 }
 

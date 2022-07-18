@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "User.h"
+#include <fstream>
 #include "Utils.h"
 using namespace std;
 
@@ -13,7 +14,7 @@ using namespace std;
 class User_Linked_List {
 	private:
 		int size;
-		User* head = new User;	// stores a memory location addres assigned by new keyword for the User Object, can be used in operations
+		User* head = new User;	// stores a memory location address assigned by new keyword for the User Object, can be used in operations
 		// User* head;			// stores NULL, cannot be used in operations which will result in errors
 	public:
 		void obtain_users_list();
@@ -24,25 +25,32 @@ void User_Linked_List::obtain_users_list() {
 	fstream myfile;
 	int line_no = 1;
 	bool first = true;
-
-	myfile.open("Account.txt", ios::in);
+	
+	myfile.open("Account.txt",ios::in);
+	
+	if (!myfile) { // file couldn't be opened
+		cerr << "Error: file could not be opened" << endl;
+	}
 	if (myfile.is_open()) {
+	
 		string line;
 		User* current = head;
 		while (getline(myfile, line)) {
 			if (line_no > 1) {
+				
 				string* index = split_string(line, ';');
 
 				User* usr = new User;
 				usr->set_user_full_name(index[0]);
 				usr->set_username(index[1]);
+				
 				usr->set_password(index[2]);
 				usr->set_role(index[3]);
 				usr->next = NULL;
 
 				current->next = usr;
 				current = usr;
-
+				
 				if (first) {
 					head = current;
 					first = false;

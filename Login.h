@@ -20,7 +20,6 @@ class Login {
 		void validateInput(string a, string b);
 		bool loginAccount(User* &user);
 		bool logoutAccount(User* &user);
-		void debug_view_user();
 };
 
 Login::Login(User_Linked_List* user) {
@@ -55,7 +54,7 @@ bool Login::loginAccount(User* &user) {
 	}
 
 	user = this->user->validate_login_details(username, pass, loginStatus);
-
+	cout << loginStatus;
 	if (loginStatus) {
 		cout << "Login Success!!" << endl; 
 		return true;
@@ -74,14 +73,5 @@ bool Login::logoutAccount(User* &user) {
 	cout << "Logout Successful!!" << endl;
 	return true;
 }
-
-//void Login::debug_view_user() {
-//	User* current = head;
-//
-//	while (current != nullptr) {
-//		cout << "Username:" << current->get_username() << endl;
-//		current = current->next;
-//	}
-//}
 
 #endif
