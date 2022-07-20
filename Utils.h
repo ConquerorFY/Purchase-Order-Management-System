@@ -172,4 +172,81 @@ int compare_time(string time1, string time2) {
 	}
 }
 
+// Check whether string is number
+// Reference: https://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
+bool is_number(const std::string& s)
+{
+	std::string::const_iterator it = s.begin();
+	while (it != s.end() && std::isdigit(*it)) ++it;
+	return !s.empty() && it == s.end();
+}
+
+bool validate_item_ids(string ids) {
+	ids = ids + ",*";
+	string* ids_arr = split_string(ids, ',');
+
+	int i = 0;
+	while (true) {
+		if (ids_arr[i] != "*") {
+			if (!is_number(ids_arr[i])) {
+				return false;
+			}
+		}
+		else {
+			break;
+		}
+		i++;
+	}
+	return true;
+}
+
+bool validate_date(string date) {
+	string* date_arr = split_string(date, '-');
+	string year = date_arr[0];
+	string month = date_arr[1];
+	string day = date_arr[2];
+
+	if (is_number(year) && is_number(month) && is_number(day)) {
+		if (stoi(month) < 1 || stoi(month) > 12) {
+			return false;
+		}
+
+		if (stoi(day) < 1 || stoi(day) > 31) {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	return true;
+}
+
+bool validate_time(string time) {
+	string* time_arr = split_time_string(time);
+	string hh = time_arr[0];
+	string mm = time_arr[1];
+	string apm = time_arr[2];
+
+	if (apm == "am" || apm == "pm") {
+		if (is_number(hh) && is_number(mm)) {
+			if (stoi(hh) < 0 || stoi(hh) > 11) {
+				return false;
+			}
+
+			if (stoi(mm) < 0 || stoi(mm) > 59) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	return true;
+}
+
 #endif

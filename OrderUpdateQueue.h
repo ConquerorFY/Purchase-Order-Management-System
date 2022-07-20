@@ -7,6 +7,7 @@
 #include <iostream>
 #include <iomanip>
 #include "PurchaseRecords.h"
+#include "Utils.h"
 using namespace std;
 
 
@@ -46,6 +47,7 @@ public:
 	};
 
 	void modifyOrder(Purchase_Records* pr) {
+		// Display Individual Order Record 
 		double n = 1;
 		int colWidth = 15;
 
@@ -83,14 +85,170 @@ public:
 
 		cout << setfill('-') << setw(9 * colWidth) << "*" << endl << endl;
 
-		char input;
-		cout << "Process Order? (Y / N): ";
-		cin >> input;
-		if (input == 'Y') {
-			pr->set_status("Processed");
-		}
-		else {
-			pr->set_status("Not Processed");
+		// Inputs to update order record data
+		int client_id;
+		string client_name, item_ids, date, time;
+		double price;
+		char type, process;
+
+		while (true) {
+			// Update Client ID
+			cout << "Change Client ID? (Enter 0 to skip): ";
+			cin >> client_id;
+			if (!cin.fail()) {
+				if (client_id != 0)
+				{
+					cin.ignore();
+					cin.clear();
+
+					cout << "Change Client Name: ";
+					getline(cin, client_name);
+					pr->set_client_id(client_id);
+					pr->set_client_name(client_name);
+				}
+				else {
+					cin.ignore();
+					cin.clear();
+				}
+			}
+			else {
+				cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+
+			// Update Item IDs
+			cout << "Change Item IDs? (eg, 001,001,001) (Enter '-' to skip): ";
+			getline(cin, item_ids);
+			if (!cin.fail()) {
+				if (item_ids != "-" && validate_item_ids(item_ids)) {
+					pr->set_item_ids(item_ids);
+				}
+				else if (item_ids != "-" && !validate_item_ids(item_ids)) {
+					cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+					cin.clear();
+					cin.ignore(10000, '\n');
+					continue;
+				}
+			}
+			else {
+				cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+
+			// Update Price
+			cout << "Change Price? (Enter 0 to skip): ";
+			cin >> price;
+			if (!cin.fail()) {
+				if (price != 0) {
+					pr->set_price(price);
+				}
+			}
+			else {
+				cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+
+			// Update Date
+			cin.ignore();
+			cin.clear();
+			cout << "Change Date? (Format: YYYY-MM-DD) (Enter '-' to skip): ";
+			getline(cin, date);
+			if (!cin.fail()) {
+				if (date != "-" && validate_date(date)) {
+					pr->set_date(date);
+				}
+				else if (date != "-" && !validate_date(date)) {
+					cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+					cin.clear();
+					cin.ignore(10000, '\n');
+					continue;
+				}
+			}
+			else {
+				cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+
+			// Update Time
+			cout << "Change Time? (Format: HH:MM am / HH:MM pm) (Enter '-' to skip): ";
+			getline(cin, time);
+			if (!cin.fail()) {
+				if (time != "-" && !validate_time(time)) {
+					pr->set_time(time);
+				}
+				else if (date != "-" && !validate_time(time)) {
+					cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+					cin.clear();
+					cin.ignore(10000, '\n');
+					continue;
+				}
+			}
+			else {
+				cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+
+			// Update Type
+			cout << "Change Order Type? (Single (s) / Bulky (b)) (Enter '-' to skip): ";
+			cin >> type;
+			if (!cin.fail()) {
+				if (type != '-') {
+					if (type == 's') {
+						pr->set_type("Single");
+					}
+					else if (type == 'b') {
+						pr->set_type("Bulky");
+					}
+					else {
+						cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+						cin.clear();
+						cin.ignore(10000, '\n');
+						continue;
+					}
+				}
+			}
+			else {
+				cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+
+			// Update Order Status
+			cout << "Confirm to Process Order? (Y / N): ";
+			cin >> process;
+			if (!cin.fail()) {
+				if (process == 'Y') {
+					pr->set_status("Processed");
+				}
+				else if (process == 'N') {
+					pr->set_status("Not Processed");
+				}
+				else {
+					cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+					cin.clear();
+					cin.ignore(10000, '\n');
+					continue;
+				}
+			}
+			else {
+				cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+
+			break;
 		}
 	}
 
