@@ -19,7 +19,7 @@ class User {
 		string full_name;
 		string username;
 		string password;
-		string role;
+		string role;		// sale / admin
 	public:
 		User* next;
 
@@ -63,21 +63,45 @@ class User {
 		};
 		
 		void generate_summary_report(int month, int year) {
+			if (role == "admin") {
+				cout << "Not permitted to perform this action!" << endl;
+				return;
+			}
 			sl->update_summary_report_list(month, year);
 		};
 		void generate_detailed_report(int id) {
+			if (role == "sales") {
+				cout << "Not permitted to perform this action!" << endl;
+				return;
+			}
 			dl->update_detailed_report_list(id);
 		};
 		void sort_summary_reports(int order) {
+			if (role == "sales") {
+				cout << "Not permitted to perform this action!" << endl;
+				return;
+			}
 			sl->sort_summary_report_list(order);
 		};
 		void sort_detailed_reports(int order) {
+			if (role == "sales") {
+				cout << "Not permitted to perform this action!" << endl;
+				return;
+			}
 			dl->sort_detailed_reports(order);
 		};
 		void view_summary_reports() {
+			if (role == "sales") {
+				cout << "Not permitted to perform this action!" << endl;
+				return;
+			}
 			sl->view_summary_report_list();
 		};
 		void view_detailed_reports() {
+			if (role == "sales") {
+				cout << "Not permitted to perform this action!" << endl;
+				return;
+			}
 			dl->view_detailed_report_list();
 		};
 };
