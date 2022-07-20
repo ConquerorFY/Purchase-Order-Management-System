@@ -63,14 +63,14 @@ class User {
 		};
 		
 		void generate_summary_report(int month, int year) {
-			if (role == "admin") {
+			if (role == "sales") {
 				cout << "Not permitted to perform this action!" << endl;
 				return;
 			}
 			sl->update_summary_report_list(month, year);
 		};
 		void generate_detailed_report(int id) {
-			if (role == "sales") {
+			if (role == "admin") {
 				cout << "Not permitted to perform this action!" << endl;
 				return;
 			}
@@ -104,5 +104,41 @@ class User {
 			}
 			dl->view_detailed_report_list();
 		};
+		void display_user_table(User* head) {
+			if (role == "sales") {
+				cout << "Not permitted to perform this action!" << endl;
+				return;
+			}
+
+			User* current = head;
+
+			double n = 1;
+			int colWidth = 15;
+
+			cout << setfill('-') << setw(4 * colWidth) << "*" << endl;
+			cout << setfill(' ') << fixed;
+
+			cout << setw(colWidth) << "ID" << setw(colWidth)
+				<< "Full Name" << setw(colWidth) <<
+				"Username" << setw(colWidth)
+				<< "User Role" << setw(colWidth)
+				<< endl;
+			cout << setfill('-') << setw(4 * colWidth) << "*" << endl;
+			cout << setfill(' ') << fixed;
+
+			// create table of data 
+			int id = 1;
+			while (current != NULL) {
+				cout << setw(colWidth) <<
+					id << setw(colWidth) <<
+					current->get_user_full_name() << setw(colWidth) <<
+					current->get_username() << setw(colWidth) <<
+					current->get_role() << setw(colWidth) << endl;
+
+				current = current->next;
+				id++;
+			}
+			cout << setfill('-') << setw(4 * colWidth) << "*" << endl;
+		}
 };
 #endif

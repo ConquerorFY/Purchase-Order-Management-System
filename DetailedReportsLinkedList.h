@@ -191,6 +191,11 @@ class Detailed_Reports_Linked_List {
 			char option = 'x';
 			Detailed_Report* current = head;
 
+			if (size <= 0) {
+				cout << "No detailed reports created yet!!" << endl;
+				return;
+			}
+
 			while (option != 'e') {
 				cout << "Current Report: " << endl;
 				cout << "**************************" << endl;

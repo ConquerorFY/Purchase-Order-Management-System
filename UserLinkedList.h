@@ -17,9 +17,14 @@ class User_Linked_List {
 		User* head = new User;	// stores a memory location address assigned by new keyword for the User Object, can be used in operations
 		// User* head;			// stores NULL, cannot be used in operations which will result in errors
 	public:
+		User* get_user_list();
 		void obtain_users_list();
 		User* validate_login_details(string username, string password, bool &login_status);
 };
+
+User* User_Linked_List::get_user_list() {
+	return head;
+}
 
 void User_Linked_List::obtain_users_list() {
 	fstream myfile;

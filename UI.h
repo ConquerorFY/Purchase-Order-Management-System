@@ -244,7 +244,7 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
 void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary,Detailed_Reports_Linked_List* detailed) {
     int selection = 0;
 
-    while (selection != 10) {
+    while (selection != 11) {
         cout << "Welcome, " << name << "!" << endl << endl;
         cout << "********************************************************************************************" << endl;
         cout << "What do you want to do? " << endl;
@@ -257,8 +257,9 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         cout << "6. Generate Summary Order Reports" << endl;
         cout << "7. View Order Reports" << endl;
         cout << "8. Sort Order Reports" << endl;
-        cout << "9. Logout" << endl;
-        cout << "10. Exit" << endl;
+        cout << "9. View User List" << endl;
+        cout << "10. Logout" << endl;
+        cout << "11. Exit" << endl;
         cout << "********************************************************************************************" << endl << endl;
 
         cout << "Action Selection: ";
@@ -456,13 +457,20 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             }
         }
         else if (selection == 9) {
+            // view user list
+            cout << "All Users Details: " << endl;
+            cout << "******************************************************************" << endl;
+            login_user->display_user_table(user->get_user_list());
+            cout << "******************************************************************" << endl;
+        }
+        else if (selection == 10) {
             // logout
             l->logoutAccount(login_user);
             selection = 10;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
             build_UI(pr, user, summary, detailed);
         }
-        else if (selection == 10) {
+        else if (selection == 11) {
             // exit
         }
         else {

@@ -29,7 +29,7 @@ class Summary_Reports_Linked_List {
 			// Sort By Month & Year
 			// Ascending Order (1): Latest -> Oldest
 			// Descending Order (-1): Oldest -> Latest
-			if (compare_month_year(left->get_month(), left->get_year(), right->get_month(), right->get_year()) < 0) {
+			if (compare_month_year(left->get_month(), left->get_year(), right->get_month(), right->get_year()) > 0) {
 				if (order == 1) {
 					counter = left;
 					counter->next = merge(left->next, right, order);
@@ -192,6 +192,11 @@ class Summary_Reports_Linked_List {
 		void view_summary_report_list() {
 			char option = 'x';
 			Summary_Report* current = head;
+
+			if (size <= 0) {
+				cout << "No summary reports created yet!!" << endl;
+				return;
+			}
 
 			while (option != 'e') {
 				cout << "Current Report: " << endl;

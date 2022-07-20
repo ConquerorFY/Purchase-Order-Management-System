@@ -28,8 +28,8 @@ public:
 		while (tmp_b != NULL)
 		{
 			if (tmp_b->get_type() == "Bulky") {
-				queue[front] = tmp_b;
-				front--;
+				queue[rear] = tmp_b;
+				rear++;
 			}
 			tmp_b = tmp_b->next;
 		}
@@ -37,8 +37,8 @@ public:
 		while (tmp_s != NULL)
 		{
 			if (tmp_s->get_type() == "Single") {
-				queue[front] = tmp_s;
-				front--;
+				queue[rear] = tmp_s;
+				rear++;
 			}
 
 			tmp_s = tmp_s->next;
@@ -96,12 +96,12 @@ public:
 
 	void dequeue() {
 		Purchase_Records* current;
-		for (int i = rear; i > front; i--)
+		for (int i = front; i < rear; i++)
 		{
 			current = queue[i];
 			modifyOrder(current);
 			queue[i] = NULL;
-			rear--;
+			front++;
 		}
 	}
 };
@@ -110,9 +110,6 @@ Order_Update_Queue::Order_Update_Queue(int size, Purchase_Records* head) {
 	this->size = size;
 	this->linked_list = head;
 	this->queue = new Purchase_Records * [size];		// create array with fixed size
-
-	this->rear = this->size - 1;
-	this->front = this->rear;
 }
 
 #endif
