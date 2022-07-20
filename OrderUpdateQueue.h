@@ -181,10 +181,10 @@ public:
 			cout << "Change Time? (Format: HH:MM am / HH:MM pm) (Enter '-' to skip): ";
 			getline(cin, time);
 			if (!cin.fail()) {
-				if (time != "-" && !validate_time(time)) {
+				if (time != "-" && validate_time(time)) {
 					pr->set_time(time);
 				}
-				else if (date != "-" && !validate_time(time)) {
+				else if (time != "-" && !validate_time(time)) {
 					cout << "\n[X] Input Error! Please Enter the Correct Inputs!" << endl;
 					cin.clear();
 					cin.ignore(10000, '\n');
