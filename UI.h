@@ -14,8 +14,6 @@
 
 using namespace std;
 
-bool key_clicked = false;
-bool stop = false;
 Login* l;
 User* login_user;
 
@@ -485,9 +483,6 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 // Function to build UI
 void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed) {
     user->obtain_users_list();
- 
-    stop = false;
-    key_clicked = false;
 
     welcome_screen();
     if (login_screen(user)) {
