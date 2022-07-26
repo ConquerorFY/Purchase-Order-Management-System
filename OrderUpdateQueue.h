@@ -51,7 +51,7 @@ public:
 		double n = 1;
 		int colWidth = 15;
 
-		cout << "Update Order #" << pr->get_order_id() << endl;
+		cout << "\n\nUpdate Order #" << pr->get_order_id() << endl;
 		cout << setfill('-') << setw(2 * colWidth) << endl;
 		cout << setfill(' ') << fixed;
 
