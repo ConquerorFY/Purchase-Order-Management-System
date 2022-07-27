@@ -41,7 +41,6 @@ public:
 				queue[rear] = tmp_s;
 				rear++;
 			}
-
 			tmp_s = tmp_s->next;
 		}
 	};

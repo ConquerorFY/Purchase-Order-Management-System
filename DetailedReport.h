@@ -1,4 +1,4 @@
-/* Header File for the Detailed Report Class */
+/* Header File for the Detailed Report Node Class */
 
 #pragma once
 #ifndef DETAILEDREPORT
@@ -23,7 +23,7 @@ public:
 	void set_report_id(int id) { this->report_id = id; };
 	void set_order_id(int id) { this->order_id = id; };
 	
-	//get records based on order ID 
+	// get records based on order ID 
 	void get_records(Purchase_Records_Linked_List* pr) {
 
 		records = new Purchase_Records * [pr->get_size()];
@@ -31,7 +31,6 @@ public:
 	
 		while (current != NULL) {
 			if (order_id == current->get_order_id()) {
-				// cout << "order is obtained"<<endl;
 				records[i] = current;
 				i++;
 			}
@@ -40,19 +39,17 @@ public:
 		
 	}
 
-	//display_detailed_report 
+	// display_detailed_report 
 	void display_detailed_report() {
-		//Purchase_Records* current = records;
-
 		double n = 1;
 		int colWidth = 15;
-		//table header 
+		// table header 
 		cout << "\n\t\t\t\t\t\t" << "Order #" << order_id << " Detailed Report for LiveOrder Sdn Bhd" << endl << endl;
 
-		//set column width 
+		// set column width 
 		cout << setfill('-') << setw(9 * colWidth) << "*" << endl;
 		cout << setfill(' ') << fixed;
-		//set column names
+		// set column names
 		cout << setw(colWidth) << "OrderID" << setw(colWidth)
 			<< "ClientID" << setw(colWidth) <<
 			"Client Name" << setw(colWidth)
@@ -83,8 +80,6 @@ public:
 			count++;
 		}
 		cout << setfill('-') << setw(9 * colWidth) << "*" << endl;
-	
-	
 	}
 };
 

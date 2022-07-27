@@ -1,4 +1,4 @@
-/* Header File for the Purchase_Records Class */
+/* Header File for the Purchase_Records Node Class */
 
 #pragma once
 #ifndef PURCHASERECORDS
@@ -7,7 +7,6 @@
 #include <iostream>
 using namespace std;
 
-// Linked List Node Class
 // Type (Bulky = Max Priority, Single = Min Priority)
 class Purchase_Records {
 	private:

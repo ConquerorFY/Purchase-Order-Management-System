@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// Split strings into arrays
 string* split_string(string input, char delim) {
 	stringstream input_stream(input);
 	string* string_tokens = new string[100000];
@@ -25,6 +26,7 @@ string* split_string(string input, char delim) {
 	return string_tokens;
 }
 
+// Compare whether month is equal
 bool compare_equal_month(string date, int month) {
 	string* date_list = split_string(date, '-');
 
@@ -36,6 +38,7 @@ bool compare_equal_month(string date, int month) {
 	return false;
 }
 
+// Compare whether year is equal
 bool compare_equal_year(string date, int year) {
 	string* date_list = split_string(date, '-');
 
@@ -47,6 +50,7 @@ bool compare_equal_year(string date, int year) {
 	return false;
 }
 
+// Compare month and year of date
 int compare_month_year(int month1, int year1, int month2, int year2) {
 	// Returns 1 if MM1-YY1 > MM2-YY2
 	//		  -1 if MM1-YY1 < MM2-YY2
@@ -71,6 +75,7 @@ int compare_month_year(int month1, int year1, int month2, int year2) {
 	}
 }
 
+// Compare date (YYY-MM-DD)
 int compare_date(string date1, string date2) {
 	// Date is in YYYY-MM-DD Format
 	// Returns 1 if date1 > date2; 
@@ -115,6 +120,7 @@ int compare_date(string date1, string date2) {
 	}
 }
 
+// Convert time string into arrays
 string* split_time_string(string time) {
 	string* time_list = new string[10000];
 	string* first_half = split_string(time, ' ');	// "HH:MM", ["AM" / "PM"]
@@ -127,6 +133,7 @@ string* split_time_string(string time) {
 	return time_list;	// ["HH", "MM", ["AM" / "PM"]]
 }
 
+// Compare time
 int compare_time(string time1, string time2) {
 	// Time is in HH:MM AM/PM Format
 	// Returns 1 if time1 > time2; 
@@ -181,6 +188,7 @@ bool is_number(const std::string& s)
 	return !s.empty() && it == s.end();
 }
 
+// Validate Item IDs
 bool validate_item_ids(string ids) {
 	ids = ids + ",*";
 	string* ids_arr = split_string(ids, ',');
@@ -200,6 +208,7 @@ bool validate_item_ids(string ids) {
 	return true;
 }
 
+// Validate date
 bool validate_date(string date) {
 	string* date_arr = split_string(date, '-');
 	string year = date_arr[0];
@@ -222,6 +231,7 @@ bool validate_date(string date) {
 	return true;
 }
 
+// Validate time
 bool validate_time(string time) {
 	string* time_arr = split_time_string(time);
 	string hh = time_arr[0];

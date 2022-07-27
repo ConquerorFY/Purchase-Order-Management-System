@@ -1,4 +1,4 @@
-/* Header File for the Summary Report Class */
+/* Header File for the Summary Report Node Class */
 
 #pragma once
 #ifndef SUMMARYREPORT

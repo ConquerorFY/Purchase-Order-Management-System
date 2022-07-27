@@ -1,4 +1,4 @@
-/* Header File that Contains the User Class Definition */
+/* Header File that Contains the User Node Class */
 
 #pragma once
 #ifndef USER
@@ -19,7 +19,7 @@ class User {
 		string full_name;
 		string username;
 		string password;
-		string role;		// sale / admin
+		string role;		// sales / admin
 	public:
 		User* next;
 

@@ -17,6 +17,9 @@ class Detailed_Reports_Linked_List {
 		Detailed_Report* head;
 		Purchase_Records_Linked_List* ll;
 
+		// Sorting Algorith (Merge Sort)
+		// Reference: https://www.journaldev.com/61310/sort-linked-lists-cpp
+		// *********************************************************************************************************************
 		Detailed_Report* merge(Detailed_Report* left, Detailed_Report* right, int order) {
 			if (left == NULL) {
 				return right;
@@ -57,19 +60,60 @@ class Detailed_Reports_Linked_List {
 			}
 
 			return counter;
-		
 		};
+
+		Detailed_Report* mid_point(Detailed_Report* node) {
+			if (node == NULL || node->next == NULL) {
+				return node;
+			}
+
+			Detailed_Report* fast = node;
+			Detailed_Report* slow = node;
+
+			while (fast != NULL && fast->next != NULL) {
+				fast = fast->next;
+
+				if (fast->next == NULL) {
+					break;
+				}
+
+				fast = fast->next;
+				slow = slow->next;
+			}
+
+			return slow;
+		};
+
+		Detailed_Report* merge_sort(Detailed_Report* node, int order) {
+			if (node == NULL || node->next == NULL) {
+				return node;
+			}
+
+			Detailed_Report* mid = mid_point(node);
+			Detailed_Report* left = node;
+			Detailed_Report* right = mid->next;
+
+			mid->next = NULL;
+
+			left = merge_sort(left, order);
+			right = merge_sort(right, order);
+
+			Detailed_Report* merged = merge(left, right, order);
+			return merged;
+		};
+		// *********************************************************************************************************************
+
 		bool check_duplicate_detailed_report(int order_id) {
 			Detailed_Report* current = head;
 			while (current != NULL) {
 				if (current->get_order_id() == order_id) {
-					// cout << "Report for order id: "<<order_id <<" exist!" << endl;
 					return true;
 				}
 				current = current->next;
 			}
 			return false;
 		};
+
 		void overwrite_existing_detailed_report(Detailed_Report* new_report) {
 			Detailed_Report* current = head;
 			while (current != NULL) {
@@ -106,44 +150,6 @@ class Detailed_Reports_Linked_List {
 				delete current;
 			}
 		}
-		Detailed_Report* mid_point(Detailed_Report* node) {
-			if (node == NULL || node->next == NULL) {
-				return node;
-			}
-
-			Detailed_Report* fast = node;
-			Detailed_Report* slow = node;
-
-			while (fast != NULL && fast->next != NULL) {
-				fast = fast->next;
-
-				if (fast->next == NULL) {
-					break;
-				}
-
-				fast = fast->next;
-				slow = slow->next;
-			}
-
-			return slow;
-		};
-		Detailed_Report* merge_sort(Detailed_Report* node, int order) {
-			if (node == NULL || node->next == NULL) {
-				return node;
-			}
-
-			Detailed_Report* mid = mid_point(node);
-			Detailed_Report* left = node;
-			Detailed_Report* right = mid->next;
-
-			mid->next = NULL;
-
-			left = merge_sort(left, order);
-			right = merge_sort(right, order);
-
-			Detailed_Report* merged = merge(left, right, order);
-			return merged;
-		};
 
 	public:
 		void set_purchase_records_linked_list(Purchase_Records_Linked_List* ll) {
@@ -160,7 +166,6 @@ class Detailed_Reports_Linked_List {
 			dr->get_records(ll);
 	
 			if (head == nullptr) {
-				// cout << "Head is null" << endl;
 				head = dr;
 				dr->next = NULL;
 				dr->prev = NULL;
@@ -183,8 +188,14 @@ class Detailed_Reports_Linked_List {
 		};
 
 		void sort_detailed_reports(int order) {
+			if (size < 1) {
+				cout << "\nNo Detailed Reports created yet!!" << endl;
+				return;
+			}
 			head = merge_sort(head, order);
 			head->prev = NULL;
+
+			cout << "\n [*] The Detailed Order Reports List has been sorted successfully!!" << endl << endl;
 		};
 
 		void view_detailed_report_list() {
@@ -192,7 +203,7 @@ class Detailed_Reports_Linked_List {
 			Detailed_Report* current = head;
 
 			if (size <= 0) {
-				cout << "No detailed reports created yet!!" << endl;
+				cout << "No Detailed Reports created yet!!" << endl;
 				return;
 			}
 

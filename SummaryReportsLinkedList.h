@@ -15,7 +15,8 @@ class Summary_Reports_Linked_List {
 		Purchase_Records_Linked_List* ll;
 
 		// Sorting Function for LinkedList (Using Merge Sort)
-		// ***********************************************************************************
+		// Reference: https://www.journaldev.com/61310/sort-linked-lists-cpp
+		// ******************************************************************************************************************************
 		Summary_Report* merge(Summary_Report* left, Summary_Report* right, int order) {
 			if (left == NULL) {
 				return right;
@@ -96,7 +97,7 @@ class Summary_Reports_Linked_List {
 			Summary_Report* merged = merge(left, right, order);
 			return merged;
 		};
-		// ***********************************************************************************
+		// ******************************************************************************************************************************
 
 		bool check_duplicate_summary_report(int month, int year) {
 			Summary_Report* current = head;
@@ -185,8 +186,14 @@ class Summary_Reports_Linked_List {
 		};
 
 		void sort_summary_report_list(int order) {
+			if (size < 1) {
+				cout << "\nNo Summary Reports created yet!!" << endl;
+				return;
+			}
 			head = merge_sort(head, order);
 			head->prev = NULL;
+
+			cout << "\n [*] The Summary Order Reports List has been sorted successfully!!" << endl << endl;
 		};
 
 		void view_summary_report_list() {
@@ -230,7 +237,6 @@ class Summary_Reports_Linked_List {
 					cin.ignore(10000, '\n');
 				}
 			}
-			
 		};
 };
 

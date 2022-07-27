@@ -181,8 +181,8 @@ void Purchase_Records_Linked_List::display_order_table(Purchase_Records* new_hea
 
 
 // Sorting Function for LinkedList (Using Merge Sort)
-// ***********************************************************************************
-
+// Reference: https://www.journaldev.com/61310/sort-linked-lists-cpp
+// ******************************************************************************************************************************
 Purchase_Records* Purchase_Records_Linked_List::merge(Purchase_Records* left, Purchase_Records* right, int criteria, int order) {
 	if (left == NULL) {
 		return right;
@@ -423,8 +423,7 @@ Purchase_Records* Purchase_Records_Linked_List::merge_sort(Purchase_Records* nod
 	Purchase_Records* merged = merge(left, right, criteria, order);
 	return merged;
 }
-
-// ***********************************************************************************
+// ******************************************************************************************************************************
 
 Purchase_Records* Purchase_Records_Linked_List::sort_records(int option, int order) {
 	// Options: 
@@ -563,7 +562,6 @@ void Purchase_Records_Linked_List::delete_clone_list(Purchase_Records* clone_hea
 	while (current != NULL) {
 		Purchase_Records* target = current;
 		current = current->next;
-
 		target->next = NULL;
 		delete target;
 	}

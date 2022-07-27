@@ -25,6 +25,15 @@ void clear_screen() {
     system("cls");
 }
 
+// Validation whether purchase records data has been obtained
+bool validate_purchase_records_list(Purchase_Records_Linked_List* pr) {
+    if (pr->get_size() < 1) {
+        cout << "\nPlease obtain the purchase records first before proceed!!" << endl;
+        return false;
+    }
+    return true;
+}
+
 // Welcome Screen
 void welcome_screen() {
 	time_t t = time(0);	// get time now
@@ -41,9 +50,6 @@ void welcome_screen() {
 
 // Login Screen
 bool login_screen(User_Linked_List* user) {
-    // login screen
-    //cout << "   Login Page: " << endl;
-    //cout << "   ************************" << endl;
     l = new Login(user);
     return l->loginAccount(login_user);
 }
@@ -72,21 +78,36 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
 
         clear_screen();
         if (selection == 1) {
+            // obtain purchase records
             login_user->obtain_purchase_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl << endl;
         }
         else if (selection == 2) {
-            // modify
+            // modify purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             login_user->update_purchase_record();
         }
         else if (selection == 3) {
+            // view purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
             login_user->display_purchase_records();
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
+            // sort purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int criteria;
             int option;
 
@@ -151,7 +172,11 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
             cout << "\n[*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
-            // search
+            // search purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int criteria;
             int option;
 
@@ -202,6 +227,10 @@ void executives_screen(string name, Purchase_Records_Linked_List* pr, User_Linke
         }
         else if (selection == 6) {
             // generate detailed report (handled or not handled)
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int order_id;
             while (true) {
                 cout << "Please Enter Order ID: ";
@@ -265,21 +294,36 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
 
         clear_screen();
         if (selection == 1) {
+            // obtain purchase records
             login_user->obtain_purchase_records();
             cout << "[*] Purchase Order Records have been read from file into the program" << endl;
             cout << "[*] Purchase Order Records are stored in a Linked-List within the program for access" << endl;
         }
         else if (selection == 2) {
-            // modify
+            // modify purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             login_user->update_purchase_record();
         }
         else if (selection == 3) {
+            // view purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             cout << "All Purchase Order Records: " << endl;
             cout << "*****************************************************************************************************************************************" << endl;
             login_user->display_purchase_records(); 
             cout << "*****************************************************************************************************************************************" << endl << endl;
         }
         else if (selection == 4) {
+            // sort purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int criteria;
             int option;
 
@@ -343,7 +387,11 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             cout << "\n [*] Purchase Order Record List has been sorted successfully!!" << endl;
         }
         else if (selection == 5) {
-            // search
+            // search purchase records
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int criteria;
             int option;
 
@@ -393,6 +441,11 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
             cout << endl << endl;
         }
         else if (selection == 6) {
+            // generate summary reports
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int month, year;
 
             cout << "Please enter month of summary report (1-12): ";
@@ -405,6 +458,10 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         }
         else if (selection == 7) {
             // view order reports
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int option;
 
             cout << "Please select whether to view summary order reports / detailed order reports (summary order reports (1) / detailed order reports (2)): ";
@@ -422,6 +479,10 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         }
         else if (selection == 8) {
             // sort order reports
+            if (!validate_purchase_records_list(pr)) {
+                continue;
+            }
+
             int option;
 
             cout << "Please select whether to sort summary order reports / detailed order reports (summary order reports (1) / detailed order reports (2)): ";
@@ -437,8 +498,6 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
                 cin >> order;
 
                 login_user->sort_summary_reports(order);
-
-                cout << "\n [*] The Summary Order Reports List has been sorted successfully!!" << endl << endl;
             }
             else if (option == 2) {
                 // sort detailed order reports
@@ -450,8 +509,6 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
                 cin >> order;
 
                 login_user->sort_detailed_reports(order);
-
-                cout << "\n [*] The Detailed Order Reports List has been sorted successfully!!" << endl << endl;
             }
         }
         else if (selection == 9) {
