@@ -14,7 +14,7 @@ class Detailed_Reports_Linked_List {
 	private:
 		int size = 0;
 		int id_generator = 0;
-		Detailed_Report* head;
+		Detailed_Report* head = NULL;
 		Purchase_Records_Linked_List* ll;
 
 		// Sorting Algorith (Merge Sort)

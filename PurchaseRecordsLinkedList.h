@@ -17,7 +17,7 @@ using namespace std;
 // Linked List Class for Purchase Records
 class Purchase_Records_Linked_List {
 	private:
-		int size;
+		int size = 0;
 		// Purchase_Records* head = NULL;
 		Purchase_Records* head = new Purchase_Records;
 

@@ -525,7 +525,7 @@ void admin_screen(string name, Purchase_Records_Linked_List* pr, User_Linked_Lis
         else if (selection == 10) {
             // logout
             l->logoutAccount(login_user);
-            selection = 10;
+            selection = 11;
             cin.ignore();           // use this to eat up the <Space> character (prevent from affecting getline() in the login_screen() function)
             build_UI(pr, user, summary, detailed);
         }
