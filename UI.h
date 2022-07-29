@@ -20,9 +20,13 @@ User* login_user;
 // Function Definitions
 void build_UI(Purchase_Records_Linked_List* pr, User_Linked_List* user, Summary_Reports_Linked_List* summary, Detailed_Reports_Linked_List* detailed);
 
-// Clear Console Screen
+// Clear Console Scr
 void clear_screen() {
-    system("cls");
+    string command = "clear";
+    #ifdef _WIN32
+        command = "cls";
+    #endif
+    system(command.c_str());
 }
 
 // Validation whether purchase records data has been obtained
